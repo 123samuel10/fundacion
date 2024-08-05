@@ -13,9 +13,7 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->email != 'coste@gmail.com') {
-            return redirect('/')->with('error', 'No tienes permiso para acceder a esta sección.');
-        }
+
 
         $categorias = Categoria::all();
         return view('categories.index', compact('categorias'));
@@ -37,6 +35,11 @@ class CategoriaController extends Controller
         $categoria = new Categoria();
         $categoria->id=$request->id;
         $categoria->name=$request->name;
+
+
+        if ($request->hasFile('image_url')) {
+            $categoria->image_url = $request->file('image_url')->store('uploads', 'public');
+        }
 
         $categoria->save();
 

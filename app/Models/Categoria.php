@@ -7,5 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Categoria extends Model
 {
+
     use HasFactory;
+    protected $table = 'categorias';
+
+    // Relación con el modelo Post
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'category');
+    }
 }

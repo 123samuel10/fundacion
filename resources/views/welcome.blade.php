@@ -3,10 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Laravel</title>
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -53,20 +50,34 @@
                         <img src="http://localhost/laravel/crud/imagenes/fundacion.jpg" alt="Fundacion Image" class="w-full h-auto rounded shadow-lg">
                     </div>
 
+                    <h1 class="text-3xl font-bold mb-6">Publicaciones</h1>
+
                     <!-- Contenido Principal -->
-                    <div class="text-lg text-red-600 mb-4">
-                        This is the main content area. Add your content here.
+                    <div class="flex flex-wrap gap-6">
+                        @foreach($posts as $post)
+                        <div class="flex-1 max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                            <a href="#">
+                                <img class="rounded-t-lg w-full h-48 object-cover" src="{{ asset('storage/' . $post->image_url) }}" alt="{{ $post->title }}" />
+                            </a>
+                            <div class="p-5">
+                                <a href="#">
+                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $post->title }}</h5>
+                                </a>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $post->body }}</p>
+                                {{-- <p class="text-sm text-gray-500 dark:text-gray-300">Categoría: {{ $post->categoria->name }}</p> --}}
+                                <p class="text-sm text-gray-500 dark:text-gray-300">
+                                    Categoría: {{ $post->categoria ? $post->categoria->name : 'Sin categoría' }}
+                                </p>
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
-
-                    <div class="text-red-800">
-                        This is the footer of the article. Add additional information here.
-                    </div>
-
                 </div>
+
+
             </div>
         </div>
     </div>
-
     <!-- Footer -->
     <footer class="bg-red-600 p-6 text-white mt-8">
         <div class="mx-auto max-w-7xl flex justify-between">

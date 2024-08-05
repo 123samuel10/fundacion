@@ -1,4 +1,14 @@
 
+
+
+
+
+
+
+
+
+
+
 <nav x-data="{ open: false }" class="bg-red-600 border-b border-red-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,21 +23,19 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-white hover:text-red-300">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+                    @if(Auth::user()->usertype === 'user')
+                        <!-- Message for Users -->
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')" class="text-white hover:text-red-300">
-                        Publicaciones
-                    </x-nav-link>
-                </div>
+                    @elseif(Auth::user()->usertype === 'admin')
+                        <!-- Links for Admins -->
+                        <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')" class="text-white hover:text-red-300">
+                            Publicaciones
+                        </x-nav-link>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')" class="text-white hover:text-red-300">
-                        Categoria
-                    </x-nav-link>
+                        <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')" class="text-white hover:text-red-300">
+                            Categorías
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -40,7 +48,7 @@
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </div>
                         </button>
@@ -83,6 +91,20 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-red-600 hover:bg-red-500 hover:text-white">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @if(Auth::user()->usertype === 'user')
+                <!-- Message for Users -->
+
+            @elseif(Auth::user()->usertype === 'admin')
+                <!-- Links for Admins -->
+                <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')" class="text-red-600 hover:bg-red-500 hover:text-white">
+                    Publicaciones
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')" class="text-red-600 hover:bg-red-500 hover:text-white">
+                    Categorías
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -111,3 +133,22 @@
         </div>
     </div>
 </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

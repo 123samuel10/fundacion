@@ -1,10 +1,16 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\CheckUserType;
 use App\Models\Categoria;
 use App\Models\Post;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 //TUTAS Publicas
@@ -12,7 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Route::get('/user/create',[PostController::class,'create'])->name('user.index');
+// Route::get('/user', [UserController::class, 'index'])->name('user.index');
+
 Route::get('/posts',[PostController::class,'index'])->name('posts.index');
+Route::get('/', [PostController::class, 'index2']);
 Route::get("/posts/create",[PostController::class,'create'])->name('posts.create');
 Route::post('/posts',[PostController::class,'store'])->name('posts.store');
 Route::delete('posts/{post}',[PostController::class,'destroy'])->name('posts.delete');
@@ -27,16 +37,9 @@ Route::post('/categories',[CategoriaController::class,'store'])->name('categorie
 Route::delete('categories/{categoria}',[CategoriaController::class,'destroy']);
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::resource('posts', PostController::class);
-});
-Route::middleware(['auth'])->group(function () {
-    Route::resource('categories', CategoriaController::class);
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 //Rutas privadas
 Route::middleware('auth')->group(function () {
@@ -47,6 +50,35 @@ Route::middleware('auth')->group(function () {
 
 
 
+
+// Route::middleware(['auth', 'verified'])->group(function () {
+//     // Ruta general que redirige al dashboard específico del usuario
+//      Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+//     // Rutas específicas para los dashboards
+//     Route::get('/dashboard/admin', [DashboardController::class, 'admin'])->name('admin.dashboard');
+//     Route::get('/dashboard/user', [DashboardController::class, 'user'])->name('user.dashboard');
+// });
+
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Ruta general que redirige al dashboard específico del usuario
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Ruta específica para el dashboard del admin
+    Route::get('/dashboard/admin', function () {
+        if (Auth::check() && Auth::user()->usertype === 'admin') {
+            return app(DashboardController::class)->admin();
+        }
+        return redirect('/');
+    })->name('admin.dashboard');
+
+    // Ruta específica para el dashboard del usuario
+    Route::get('/dashboard/user', function () {
+        if (Auth::check() && Auth::user()->usertype === 'user') {
+            return app(DashboardController::class)->user();
+        }
+        return redirect('/');
+    })->name('user.dashboard');
+});
 require __DIR__.'/auth.php';
-
-

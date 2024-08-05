@@ -17,13 +17,27 @@ class PostController extends Controller
     public function index()
 
     {
-        if (Auth::user()->email != 'coste@gmail.com') {
-            return redirect('/')->with('error', 'No tienes permiso para acceder a esta sección.');
-        }
-        $posts = Post::all();
+
+        // $posts = Post::all();
+        // $categorias = Categoria::all();
+
+        //  return view('posts.index', compact('posts','categorias'));
+
+        $posts = Post::with('categoria')->get();
         $categorias = Categoria::all();
-        return view('posts.index', compact('posts','categorias'));
+        return view('posts.index', compact('posts', 'categorias'));
+
     }
+
+
+
+    public function index2()
+{
+    $posts = Post::with('categoria')->get();
+
+    return view('welcome', compact('posts'));
+
+}
 
     /**
      * Show the form for creating a new resource.
@@ -35,6 +49,8 @@ class PostController extends Controller
         // Pasar las categorías a la vista
         return view('posts.create', compact('categorias'));
 
+
+
     }
 
     /**
@@ -42,8 +58,6 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $post = new Post();
         $post->user_id = $request->user_id;
         $post->title = $request->title;
@@ -58,18 +72,12 @@ class PostController extends Controller
         $post->save();
 
         return redirect('/posts')->with('message', 'Post creado exitosamente');
+
     }
 
 
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        // $categorias = Categoria::all();
-        // return view('posts.edit', compact('post', 'categorias'));
-    }
+
     /**
      * Update the specified resource in storage.
      */

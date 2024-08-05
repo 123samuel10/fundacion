@@ -19,7 +19,7 @@
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
                         <label for="user_id" class="block mb-2 text-sm font-medium text-red-700">Usuario</label>
-                        <input type="text" id="user_id" name="user_id" value="{{ isset($post->user_id) }}" class="bg-gray-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5" placeholder="ID de Usuario" required />
+                        <input type="text" id="user_id" name="user_id" value="{{ Auth::user()->id }}" class="bg-gray-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5" readonly />
                     </div>
                     <div>
                         <label for="title" class="block mb-2 text-sm font-medium text-red-700">Título</label>
