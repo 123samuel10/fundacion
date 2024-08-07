@@ -15,6 +15,12 @@ class Post extends Model
         return $this->belongsTo(Categoria::class,'category');
       }
 
+          // Definir la relación con el modelo User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
 
 }

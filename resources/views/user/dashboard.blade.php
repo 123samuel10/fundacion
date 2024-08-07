@@ -8,4 +8,6 @@
     <!-- Contenido específico para el usuario -->
 </x-app-layout> --}}
 <h1>userrr</h1>
-<p>dkdhdkslbdsddsbnkdsdbsdsb</p>
+<x-app-layout>
+
+</x-app-layout>

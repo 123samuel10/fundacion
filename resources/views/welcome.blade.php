@@ -9,7 +9,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
 </head>
-
 <body class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
 
     <div class="py-12">
@@ -45,39 +44,58 @@
                         @endif
                     </header>
 
-                    <!-- Imagen Principal -->
-                    <div class="mb-6">
-                        <img src="http://localhost/laravel/crud/imagenes/fundacion.jpg" alt="Fundacion Image" class="w-full h-auto rounded shadow-lg">
-                    </div>
-
                     <h1 class="text-3xl font-bold mb-6">Publicaciones</h1>
 
-                    <!-- Contenido Principal -->
-                    <div class="flex flex-wrap gap-6">
-                        @foreach($posts as $post)
-                        <div class="flex-1 max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                            <a href="#">
-                                <img class="rounded-t-lg w-full h-48 object-cover" src="{{ asset('storage/' . $post->image_url) }}" alt="{{ $post->title }}" />
-                            </a>
-                            <div class="p-5">
+                    <!-- Publicaciones del Admin -->
+                    <section class="mb-12">
+                        <h2 class="text-2xl font-semibold mb-4">Publicaciones del Admin</h2>
+                        <div class="flex flex-wrap gap-6">
+                            @foreach($adminPosts as $post)
+                            <div class="flex-1 max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                                 <a href="#">
-                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $post->title }}</h5>
+                                    <img class="rounded-t-lg w-full h-48 object-cover" src="{{ asset('storage/' . $post->image_url) }}" alt="{{ $post->title }}" />
                                 </a>
-                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $post->body }}</p>
-                                {{-- <p class="text-sm text-gray-500 dark:text-gray-300">Categoría: {{ $post->categoria->name }}</p> --}}
-                                <p class="text-sm text-gray-500 dark:text-gray-300">
-                                    Categoría: {{ $post->categoria ? $post->categoria->name : 'Sin categoría' }}
-                                </p>
+                                <div class="p-5">
+                                    <a href="#">
+                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $post->title }}</h5>
+                                    </a>
+                                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $post->body }}</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-300">
+                                        Categoría: {{ $post->categoria ? $post->categoria->name : 'Sin categoría' }}
+                                    </p>
+                                </div>
                             </div>
+                            @endforeach
                         </div>
-                        @endforeach
-                    </div>
+                    </section>
+
+                    <!-- Publicaciones del Usuario -->
+                    <section>
+                        <h2 class="text-2xl font-semibold mb-4">Publicaciones del Usuario</h2>
+                        <div class="flex flex-wrap gap-6">
+                            @foreach($userPosts as $post)
+                            <div class="flex-1 max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                                {{-- <a href="#">
+                                    <img class="rounded-t-lg w-full h-48 object-cover" src="{{ asset('storage/' . $post->image_url) }}" alt="{{ $post->title }}" />
+                                </a> --}}
+                                <div class="p-5">
+                                    <a href="#">
+                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $post->title }}</h5>
+                                    </a>
+                                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $post->body }}</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-300">
+                                        Categoría: {{ $post->categoria ? $post->categoria->name : 'Sin categoría' }}
+                                    </p>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </section>
                 </div>
-
-
             </div>
         </div>
     </div>
+
     <!-- Footer -->
     <footer class="bg-red-600 p-6 text-white mt-8">
         <div class="mx-auto max-w-7xl flex justify-between">

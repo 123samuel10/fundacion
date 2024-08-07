@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
 <nav x-data="{ open: false }" class="bg-red-600 border-b border-red-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -25,7 +14,9 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @if(Auth::user()->usertype === 'user')
                         <!-- Message for Users -->
-
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')" class="text-white hover:text-red-300">
+                            Publicar
+                        </x-nav-link>
                     @elseif(Auth::user()->usertype === 'admin')
                         <!-- Links for Admins -->
                         <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')" class="text-white hover:text-red-300">
@@ -34,6 +25,10 @@
 
                         <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')" class="text-white hover:text-red-300">
                             Categorías
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('historial.index')" :active="request()->routeIs('historial.index')" class="text-white hover:text-red-300">
+                            Historial
                         </x-nav-link>
                     @endif
                 </div>
@@ -94,6 +89,9 @@
 
             @if(Auth::user()->usertype === 'user')
                 <!-- Message for Users -->
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')" class="text-red-600 hover:bg-red-500 hover:text-white">
+                    Publicar
+                </x-responsive-nav-link>
 
             @elseif(Auth::user()->usertype === 'admin')
                 <!-- Links for Admins -->
@@ -104,6 +102,9 @@
                 <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')" class="text-red-600 hover:bg-red-500 hover:text-white">
                     Categorías
                 </x-responsive-nav-link>
+                <x-nav-link :href="route('historial.index')" :active="request()->routeIs('historial.index')" class="text-white hover:text-red-300">
+                    Historial
+                </x-nav-link>
             @endif
         </div>
 
