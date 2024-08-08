@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
+
 class PostController extends Controller
 {
     /**
@@ -45,9 +46,7 @@ class PostController extends Controller
 
             $categorias = Categoria::all();
             return view('welcome', compact('adminPosts', 'userPosts', 'categorias'));
-    // $posts = Post::with('categoria')->get();
 
-    // return view('welcome', compact('posts'));
 
 }
 
@@ -86,12 +85,33 @@ class PostController extends Controller
         return redirect('/posts')->with('message', 'Post creado exitosamente');
         //-------------------------------------------
 
-        // $nombre=$request->file('image_url')->getClientOriginalName();
 
-        // $ruta=storage_path().$nombre;
-        // return $ruta;
-        // image::make($request->file('image_url'))->save();
+        // $post = new Post();
+        // $post->user_id = $request->user_id;
+        // $post->title = $request->title;
+        // $post->body = $request->body;
+        // $post->category = $request->category;
+        // $post->date_time = now();
 
+        // if ($request->hasFile('image_url')) {
+        //     $image = $request->file('image_url');
+
+        //     // Redimensionar la imagen a un ancho de 800px y mantener la proporción
+        //     $resizedImage = Image::make($image)->resize(800, null, function ($constraint) {
+        //         $constraint->aspectRatio();
+        //         $constraint->upsize();
+        //     })->encode('jpg', 75); // Cambia la calidad a 75%
+
+        //     // Guardar la imagen redimensionada en el disco
+        //     $filename = time() . '.' . $image->getClientOriginalExtension();
+        //     Storage::disk('public')->put('uploads/' . $filename, $resizedImage);
+
+        //     $post->image_url = 'uploads/' . $filename;
+        // }
+
+        // $post->save();
+
+        // return redirect('/posts')->with('message', 'Post creado exitosamente');
     }
 
 

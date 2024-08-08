@@ -14,33 +14,29 @@
                             <a href="users/create" class="bg-red-500 text-white px-4 py-2 rounded">Crear Posts</a>
                         </div>
                         <div class="bg-white shadow-md rounded my-6">
-                            <table class="min-w-full bg-white">
+                            <table class="min-w-full bg-white text-sm">
                                 <thead class="bg-gray-800 text-white">
                                     <tr>
-                                        <th class="w-1/12 py-3 px-4 uppercase font-semibold text-sm">#</th>
-                                        <th class="w-1/12 py-3 px-4 uppercase font-semibold text-sm">ID</th>
-                                        <th class="w-2/12 py-3 px-4 uppercase font-semibold text-sm">Title</th>
-                                        <th class="w-2/12 py-3 px-4 uppercase font-semibold text-sm">Body</th>
-                                        <th class="w-2/12 py-3 px-4 uppercase font-semibold text-sm">Category</th>
-
+                                        {{-- <th class="py-2 px-2 uppercase font-semibold">#</th> --}}
+                                        <th class="py-2 px-2 uppercase font-semibold">ID</th>
+                                        <th class="py-2 px-2 uppercase font-semibold">Title</th>
+                                        <th class="py-2 px-2 uppercase font-semibold">Body</th>
+                                        <th class="py-2 px-2 uppercase font-semibold">Category</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-700">
                                     @foreach($posts as $post)
                                     <tr class="border-b">
-                                        <td class="py-3 px-4"></td>
-                                        <td class="py-3 px-4">{{$post->id}}</td>
-                                        <td class="py-3 px-4">{{$post->title}}</td>
-                                        <td class="py-3 px-4">{{$post->body}}</td>
-                                        <td class="py-3 px-4">{{$post->category}}</td>
-
-                                        <td class="py-3 px-4">
-                                            {{-- @if(Auth::user()->usertype === 'admin') --}}
-                                            <!-- Modal toggle -->
-
+                                        {{-- <td class="py-2 px-2">{{ $loop->iteration }}</td> --}}
+                                        <td class="py-2 px-2">{{$post->id}}</td>
+                                        <td class="py-2 px-2">{{$post->title}}</td>
+                                        <td class="py-2 px-2">{{$post->body}}</td>
+                                        <td class="py-2 px-2">{{$post->category}}</td>
+                                        <td class="py-2 px-2">
+                                            <!-- Actions (e.g., edit, delete buttons) -->
                                         </td>
                                     </tr>
-                                     @endforeach
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

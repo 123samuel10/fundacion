@@ -13,11 +13,15 @@ class UserController extends Controller
 
     public function index(){
             // Filtrar los posts que no son creados por el admin
-            $posts = Post::whereHas('user', function($query) {
-                $query->where('usertype', '!=', 'admin');
-            })->get();
+            // $posts = Post::whereHas('user', function($query) {
+            //     $query->where('usertype', '!=', 'admin');
+            // })->get();
 
-            return view('clientes.index', compact('posts'));
+            // return view('clientes.index', compact('posts'));
+             // Filtrar los posts que pertenecen al usuario autenticado
+    $posts = Post::where('user_id', Auth::id())->get();
+
+    return view('clientes.index', compact('posts'));
     }
 
     public function create()

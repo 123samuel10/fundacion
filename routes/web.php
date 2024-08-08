@@ -58,17 +58,6 @@ Route::middleware('auth')->group(function () {
 
 
 
-
-// Route::middleware(['auth', 'verified'])->group(function () {
-//     // Ruta general que redirige al dashboard específico del usuario
-//      Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-//     // Rutas específicas para los dashboards
-//     Route::get('/dashboard/admin', [DashboardController::class, 'admin'])->name('admin.dashboard');
-//     Route::get('/dashboard/user', [DashboardController::class, 'user'])->name('user.dashboard');
-// });
-
-
 Route::middleware(['auth', 'verified'])->group(function () {
     // Ruta general que redirige al dashboard específico del usuario
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
