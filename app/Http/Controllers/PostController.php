@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class PostController extends Controller
 {
@@ -139,9 +140,6 @@ class PostController extends Controller
         $post->save();
         return redirect('/posts');
     }
-
-
-
 
     /**
      * Remove the specified resource from storage.

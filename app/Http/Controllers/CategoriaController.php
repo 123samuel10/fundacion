@@ -46,29 +46,7 @@ class CategoriaController extends Controller
         return redirect("/categories");
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Categoria $categoria)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Categoria $categoria)
-    {
-        // return view('categories.edit', compact('categoria'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Categoria $categoria)
-    {
-
-    }
 
     /**
      * Remove the specified resource from storage.
