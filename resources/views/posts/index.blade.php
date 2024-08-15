@@ -42,20 +42,14 @@
                                         <td class="py-3 px-4">{{ $post->date_time }}</td>
                                         <td class="py-3 px-4">{{ $post->category }}</td>
                                         <td class="py-3 px-4">
-                                            {{-- @if(Auth::user()->usertype === 'admin') --}}
-                                                <!-- Modal toggle -->
-                                                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-                                                    Editar Post
-                                                </button>
-                                                <!-- Main modal -->
-                                                <x-edit-posts :post="$post" :categorias="$categorias" />
 
+                                                <x-edit-posts :post="$post" :categorias="$categorias" />
                                                 |
                                                 <button data-modal-target="popup-modal-{{ $post->id }}" data-modal-toggle="popup-modal-{{ $post->id }}" class="block text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" type="button">
                                                     Borrar
                                                 </button>
                                                 <x-destroy-posts :post="$post" />
-                                            {{-- @endif --}}
+
                                         </td>
                                     </tr>
                                     @endforeach

@@ -27,9 +27,9 @@
                             Categorías
                         </x-nav-link>
 
-                        <x-nav-link :href="route('historial.index')" :active="request()->routeIs('historial.index')" class="text-white hover:text-red-300">
+                        {{-- <x-nav-link :href="route('historial.index')" :active="request()->routeIs('historial.index')" class="text-white hover:text-red-300">
                             Historial
-                        </x-nav-link>
+                        </x-nav-link> --}}
                     @endif
                 </div>
             </div>

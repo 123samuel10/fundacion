@@ -39,11 +39,7 @@
                                                 Borrar
                                             </button>
                                             <x-destroy-posts-historial :post="$post" />
-                                            {{-- <form action="/historial/{{$post->id }}" method="post" class="inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <input type="submit" onclick="return confirm('¿Quieres borrar?')" value="Borrar" class="text-red-500 hover:underline bg-transparent border-none cursor-pointer">
-                                            </form> --}}
+
                                         </td>
                                     </tr>
                                      @endforeach

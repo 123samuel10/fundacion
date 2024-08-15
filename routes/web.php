@@ -4,6 +4,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HistorialController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NoticiasController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -38,6 +40,7 @@ Route::post('/categories',[CategoriaController::class,'store'])->name('categorie
 Route::delete('categories/{categoria}',[CategoriaController::class,'destroy']);
 
 
+
 Route::get('/users',[UserController::class,'index'])->name('users.index');
 Route::get('/users/create', [UserController::class, 'create']);
 Route::post('/users', [UserController::class, 'store']);
@@ -45,6 +48,11 @@ Route::post('/users', [UserController::class, 'store']);
 
 Route::get('/historial',[HistorialController::class,'index'])->name('historial.index');
 Route::delete('historial/{historial}',[HistorialController::class,'destroy'])->name('historial.delete');
+
+Route::get('/home',[HomeController::class,'index'])->name('home.index');
+
+
+Route::get('/noticias',[NoticiasController::class,'index'])->name('noticias.index');
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');

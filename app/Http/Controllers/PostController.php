@@ -34,22 +34,10 @@ class PostController extends Controller
     public function index2()
 
 {
-
-            // Obtener posts de administradores
-            $adminPosts = Post::whereHas('user', function($query) {
-                $query->where('usertype', 'admin');
-            })->with('categoria')->get();
-
-            // Obtener posts de usuarios que no son administradores
-            $userPosts = Post::whereHas('user', function($query) {
-                $query->where('usertype', '!=', 'admin');
-            })->with('categoria')->get();
-
-            $categorias = Categoria::all();
-            return view('welcome', compact('adminPosts', 'userPosts', 'categorias'));
-
+            return view('welcome');
 
 }
+
 
     /**
      * Show the form for creating a new resource.
@@ -84,38 +72,15 @@ class PostController extends Controller
         $post->save();
 
         return redirect('/posts')->with('message', 'Post creado exitosamente');
-        //-------------------------------------------
 
-
-        // $post = new Post();
-        // $post->user_id = $request->user_id;
-        // $post->title = $request->title;
-        // $post->body = $request->body;
-        // $post->category = $request->category;
-        // $post->date_time = now();
-
-        // if ($request->hasFile('image_url')) {
-        //     $image = $request->file('image_url');
-
-        //     // Redimensionar la imagen a un ancho de 800px y mantener la proporción
-        //     $resizedImage = Image::make($image)->resize(800, null, function ($constraint) {
-        //         $constraint->aspectRatio();
-        //         $constraint->upsize();
-        //     })->encode('jpg', 75); // Cambia la calidad a 75%
-
-        //     // Guardar la imagen redimensionada en el disco
-        //     $filename = time() . '.' . $image->getClientOriginalExtension();
-        //     Storage::disk('public')->put('uploads/' . $filename, $resizedImage);
-
-        //     $post->image_url = 'uploads/' . $filename;
-        // }
-
-        // $post->save();
-
-        // return redirect('/posts')->with('message', 'Post creado exitosamente');
     }
 
-
+    public function edit($id)
+{
+    $post = Post::findOrFail($id);
+    $categorias = Categoria::all();
+    return view('posts.edit', compact('post', 'categorias'));
+}
     /**
      * Update the specified resource in storage.
      */
