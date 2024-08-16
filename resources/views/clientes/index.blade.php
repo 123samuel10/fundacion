@@ -27,13 +27,13 @@
                                 <tbody class="text-gray-700">
                                     @foreach($posts as $post)
                                     <tr class="border-b">
-                                        {{-- <td class="py-2 px-2">{{ $loop->iteration }}</td> --}}
+
                                         <td class="py-2 px-2">{{$post->id}}</td>
                                         <td class="py-2 px-2">{{$post->title}}</td>
                                         <td class="py-2 px-2">{{$post->body}}</td>
                                         <td class="py-2 px-2">{{$post->category}}</td>
                                         <td class="py-2 px-2">
-                                            <!-- Actions (e.g., edit, delete buttons) -->
+
                                         </td>
                                     </tr>
                                     @endforeach
