@@ -57,6 +57,7 @@ Route::get('/noticias',[NoticiasController::class,'index'])->name('noticias.inde
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
+
 //Rutas privadas
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -87,3 +88,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('user.dashboard');
 });
 require __DIR__.'/auth.php';
+
+Route::get('/pull', function () {
+    // Ejecutar un comando en Linux
+    if(shell_exec('git pull')){
+        return "Actualizado";
+    }
+    else{
+        return "Oops, algo ocurrió";
+    }
+});
