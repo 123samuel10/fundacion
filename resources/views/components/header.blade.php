@@ -85,7 +85,7 @@
     <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
         <!-- Logo -->
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <span class="self-center text-3xl font-bold whitespace-nowrap">Fundación Genioss</span>
+            <span class="self-center text-3xl font-bold whitespace-nowrap">Fundación Genios</span>
         </a>
 
        <!-- Center Links -->
