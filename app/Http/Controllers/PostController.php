@@ -29,8 +29,6 @@ class PostController extends Controller
         return view('posts.index', compact('posts', 'categorias'));
     }
 
-
-
     public function index2()
 
 {

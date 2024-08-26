@@ -18,13 +18,13 @@ class HomeController extends Controller
         })->with('categoria')->get();
 
         // Obtener posts de usuarios que no son administradores con categoría 'Home'
-        $userPosts = Post::whereHas('user', function ($query) {
-            $query->where('usertype', '!=', 'admin');
-        })->whereHas('categoria', function ($query) {
-            $query->where('name', 'Home');
-        })->with('categoria')->get();
+        // $userPosts = Post::whereHas('user', function ($query) {
+        //     $query->where('usertype', '!=', 'admin');
+        // })->whereHas('categoria', function ($query) {
+        //     $query->where('name', 'Home');
+        // })->with('categoria')->get();
 
         $categorias = Categoria::all();
-        return view('home.index', compact('adminPosts', 'userPosts', 'categorias'));
+        return view('home.index', compact('adminPosts', 'categorias'));
     }
 }

@@ -1,5 +1,5 @@
 <footer class="bg-red-600 text-gray-400 py-8 mt-12">
-    <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-start space-y-6">
+    <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between gap-6">
         <!-- Sobre nosotros -->
         <div class="w-full sm:w-1/3">
             <h3 class="text-lg font-semibold text-white">Sobre nosotros</h3>
@@ -8,7 +8,7 @@
         <!-- Contacto -->
         <div class="w-full sm:w-1/3">
             <h3 class="text-lg font-semibold text-white">Contacto</h3>
-            <ul class="mt-2">
+            <ul class="mt-2 space-y-1">
                 <li>Email: admin@geniossoft.com</li>
                 <li>Celular: 320 680-5180</li>
                 <li>Dirección: Calle 1 Norte # 16-69, Armenia-Quindio</li>
@@ -17,16 +17,16 @@
         <!-- Redes Sociales -->
         <div class="w-full sm:w-1/3">
             <h3 class="text-lg font-semibold text-white">Redes Sociales</h3>
-            <div class="mt-2 flex space-x-4">
+            <div class="mt-2 flex flex-wrap gap-4">
                 <a href="https://www.facebook.com/geniosfundacion?mibextid=LQQJ4d" class="hover:text-white transition-colors">Facebook</a>
                 <a href="#" class="hover:text-white transition-colors">Twitter</a>
                 <a href="#" class="hover:text-white transition-colors">Instagram</a>
             </div>
         </div>
     </div>
-    <div class="flex justify-between items-center max-w-7xl mx-auto px-4 mt-6">
+    <div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto px-4 mt-6">
         <span class="text-sm text-gray-200">© 2023 GeniosSoft Foundation. All Rights Reserved.</span>
-        <div class="flex space-x-5">
+        <div class="flex gap-5 mt-4 md:mt-0">
             <a href="#" class="text-gray-400 hover:text-white">
                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">
                     <path fill-rule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clip-rule="evenodd"/>
