@@ -34,7 +34,7 @@
     </section>
 
     <!-- User Posts Section -->
-    <section>
+    {{-- <section>
         <h2 class="text-3xl font-semibold mb-6 text-gray-800 dark:text-gray-200">Noticias del Usuario</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($userPosts as $post)
@@ -49,5 +49,5 @@
             </div>
             @endforeach
         </div>
-    </section>
+    </section> --}}
 </x-layout>
