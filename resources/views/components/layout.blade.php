@@ -14,7 +14,7 @@
     <style>
         /* Aplicar la fuente a todo el cuerpo */
         body {
-            font-family: 'Fredericka the Great', cursive;
+            font-family: 'Roboto', sans-serif;
         }
     </style>
 </head>

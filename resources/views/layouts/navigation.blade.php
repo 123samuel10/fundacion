@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-red-600 border-b border-red-700">
+<nav x-data="{ open: false }" class="bg-red-600 border-b border-red-700 ">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
@@ -11,10 +11,10 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden sm:flex space-x-8 sm:-my-px sm:ml-10">
+                <div class="hidden sm:flex space-x-8 sm:-my-px sm:ml-10   ">
                     @if(Auth::user()->usertype === 'user')
                         <!-- User Link -->
-                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')" class="text-white hover:text-red-300">
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')" class="text-white hover:text-red-300 ">
                             Publicar
                         </x-nav-link>
                     @elseif(Auth::user()->usertype === 'admin')
