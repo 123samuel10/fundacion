@@ -24,6 +24,7 @@ Route::get('/', function () {
 // Route::get('/user/create',[PostController::class,'create'])->name('user.index');
 // Route::get('/user', [UserController::class, 'index'])->name('user.index');
 
+
 Route::get('/posts',[PostController::class,'index'])->name('posts.index');
 Route::get('/', [PostController::class, 'index2']);
 Route::get("/posts/create",[PostController::class,'create'])->name('posts.create');
@@ -53,6 +54,7 @@ Route::get('/home',[HomeController::class,'index'])->name('home.index');
 
 
 Route::get('/noticias',[NoticiasController::class,'index'])->name('noticias.index');
+Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');

@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-red-600 border-b border-red-700 ">
+<nav x-data="{ open: false }" class="bg-red-600 border-b border-red-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
@@ -11,25 +11,18 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden sm:flex space-x-8 sm:-my-px sm:ml-10   ">
+                <div class="hidden sm:flex space-x-8 sm:-my-px sm:ml-10">
                     @if(Auth::user()->usertype === 'user')
-                        <!-- User Link -->
-                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')" class="text-white hover:text-red-300 ">
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')" class="text-white hover:text-red-300">
                             Publicar
                         </x-nav-link>
                     @elseif(Auth::user()->usertype === 'admin')
-                        <!-- Links for Admins -->
                         <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')" class="text-white hover:text-red-300">
                             Publicaciones
                         </x-nav-link>
-
                         <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')" class="text-white hover:text-red-300">
                             Categorías
                         </x-nav-link>
-{{--
-                        <x-nav-link :href="route('historial.index')" :active="request()->routeIs('historial.index')" class="text-white hover:text-red-300">
-                            Historial
-                        </x-nav-link> --}}
                     @endif
                 </div>
             </div>
@@ -51,7 +44,6 @@
                         <x-dropdown-link :href="route('profile.edit')" class="text-red-600 hover:bg-red-100">
                             {{ __('Profile') }}
                         </x-dropdown-link>
-                        <!-- Logout -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <x-dropdown-link :href="route('logout')"
@@ -81,7 +73,6 @@
             @elseif(Auth::user()->usertype === 'admin')
                 <a href="{{ route('posts.index') }}" class="text-white hover:bg-red-700 block px-3 py-2 rounded-md text-base font-medium">Publicaciones</a>
                 <a href="{{ route('categories.index') }}" class="text-white hover:bg-red-700 block px-3 py-2 rounded-md text-base font-medium">Categorías</a>
-                {{-- <a href="{{ route('historial.index') }}" class="text-white hover:bg-red-700 block px-3 py-2 rounded-md text-base font-medium">Historial</a> --}}
             @endif
         </div>
 
