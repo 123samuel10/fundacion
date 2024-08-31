@@ -1,5 +1,5 @@
 <x-layout>
-    <h1 class="text-4xl font-bold mb-8 text-center" style="font-family: 'Fredericka the Great', cursive;">Noticiass</h1>
+    <h1 class="text-4xl font-bold mb-8 text-center" style="font-family: 'Fredericka the Great', cursive;">Noticias</h1>
 
     <!-- Admin Posts Section -->
     <section class="mb-12">
@@ -7,6 +7,8 @@
             @foreach($adminPosts as $post)
             <div class="bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 overflow-hidden transition-transform transform hover:scale-105">
                 <a href="{{ route('posts.show', $post->id) }}">
+ {{-- Muestra la primera imagen del post --}}
+
                     <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $post->image_url) }}" alt="{{ $post->title }}" />
                 </a>
                 <div class="p-5">

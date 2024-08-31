@@ -37,11 +37,12 @@
                 <div class="bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 overflow-hidden transition-transform transform hover:scale-105">
                     <a href="{{ route('posts.show', $post->id) }}">
                         {{-- Muestra la primera imagen del post --}}
-                        @if($post->images->count() > 0)
+                        {{-- @if($post->images->count() > 0)
                             <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $post->images->first()->image_url) }}" alt="{{ $post->title }}" />
                         @else
                             <img class="w-full h-48 object-cover" src="{{ asset('storage/default.jpg') }}" alt="Imagen predeterminada" />
-                        @endif
+                        @endif --}}
+                        <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $post->image_url) }}" alt="{{ $post->title }}" />
                     </a>
                     <div class="p-5">
                         <a href="{{ route('posts.show', $post->id) }}">
