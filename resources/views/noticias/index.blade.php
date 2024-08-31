@@ -1,5 +1,5 @@
 <x-layout>
-    <h1 class="text-4xl font-bold mb-8 text-center" style="font-family: 'Fredericka the Great', cursive;">Noticias</h1>
+    <h1 class="text-4xl font-bold mb-8 text-center" style="font-family: 'Fredericka the Great', cursive;">Noticiass</h1>
 
     <!-- Admin Posts Section -->
     <section class="mb-12">
