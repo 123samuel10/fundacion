@@ -5,7 +5,7 @@
 
 <!-- Modal principal -->
 <div id="crud-modal-{{ $post->id }}" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
-    <div class="relative w-full max-w-4xl p-6 mx-auto bg-white dark:bg-gray-700 rounded-lg shadow-lg">
+    <div class="relative w-full max-w-4xl mx-auto bg-white dark:bg-gray-700 rounded-lg shadow-lg">
         <!-- Encabezado del modal -->
         <div class="flex items-center justify-between p-4 border-b dark:border-gray-600">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
@@ -20,7 +20,7 @@
         </div>
 
         <!-- Cuerpo del modal con scroll si es necesario -->
-        <div class="max-h-[80vh] overflow-y-auto p-4">
+        <div class="p-4 overflow-y-auto" style="max-height: calc(100vh - 200px);">
             <form action="/posts/{{ $post->id }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 @method('PUT')
@@ -65,7 +65,7 @@
                     </div>
                 </div>
 
-                <!-- Pie del modal -->
+                <!-- Pie del modal, siempre visible -->
                 <div class="flex items-center justify-end p-4 border-t dark:border-gray-600">
                     <button type="button" data-modal-toggle="crud-modal-{{ $post->id }}" class="text-gray-500 bg-transparent hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-lg px-4 py-2.5 dark:bg-gray-600 dark:text-gray-400 dark:hover:bg-gray-500 dark:hover:text-white dark:focus:ring-gray-600">
                         Cancelar
