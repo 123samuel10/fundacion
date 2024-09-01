@@ -2,7 +2,8 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto py-10 px-4">
         <div class="flex flex-col sm:flex-row items-center justify-center">
-            <img src="{{ asset('storage/uploads/fundacion.jpeg') }}" alt="Fundación Genios" class="w-full sm:w-1/2 h-auto mx-auto rounded-lg shadow-lg mb-6 sm:mb-0 sm:mr-6">
+            <img src="{{ asset('storage/uploads/fundacion.jpg') }}" alt="Fundación Genios" class="w-full sm:w-1/2 h-auto mx-auto rounded-lg shadow-lg mb-6 sm:mb-0 sm:mr-6">
+
             <div class="text-center sm:text-left">
                 <h2 class="text-4xl font-normal text-black mb-3" style="font-family: 'Fredericka the Great'">Fundación Genios</h2>
                 <p class="text-md text-black leading-7">
