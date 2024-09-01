@@ -63,11 +63,13 @@ class PostController extends Controller
         $post->category = $request->category;
         $post->date_time = now();
 
+        // Guardar la imagen principal en 'uploads'
         if ($request->hasFile('image_url')) {
             $post->image_url = $request->file('image_url')->store('uploads', 'public');
         }
         $post->save();
 
+        // Guardar imágenes adicionales en 'uploads'
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $path = $image->store('uploads', 'public');
