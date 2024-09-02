@@ -51,7 +51,7 @@
                         <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Editar Imagen Principal:</label>
                         <input type="file" name="image" id="image" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                         @if($post->image_url)
-                            <img src="{{ asset('storage/uploads' . $post->image_url) }}" class="mt-2 w-32 h-32 object-cover rounded-lg" alt="Imagen principal del post">
+                            <img src="{{ asset('storage/' . $post->image_url) }}" class="mt-2 w-32 h-32 object-cover rounded-lg" alt="Imagen principal del post">
                         @endif
                     </div>
                     <div>
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-                {{-- asset('storage/uploads/' . $image) --}}
+
                 <!-- Pie del modal, siempre visible -->
                 <div class="flex items-center justify-end p-4 border-t dark:border-gray-600">
                     <button type="button" data-modal-toggle="crud-modal-{{ $post->id }}" class="text-gray-500 bg-transparent hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-lg px-4 py-2.5 dark:bg-gray-600 dark:text-gray-400 dark:hover:bg-gray-500 dark:hover:text-white dark:focus:ring-gray-600">
