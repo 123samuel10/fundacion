@@ -39,6 +39,7 @@
                                             <td class="py-4 px-6">
                                                 @if($post->images->isNotEmpty())
                                                     @foreach($post->images as $image)
+
                                                         <img src="{{ asset('storage/' . $image->image_url) }}" width="100" class="rounded mb-2" alt="Imagen del post {{ $post->id }}">
                                                     @endforeach
                                                 @else
