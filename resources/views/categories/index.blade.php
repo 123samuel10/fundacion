@@ -30,7 +30,7 @@
                                         <td class="py-3 px-4">{{ $categoria->name }}</td>
                                         <td class="py-3 px-4">
                                             @if($categoria->image_url)
-                                                <img src="{{ asset('storage/uploads' . $categoria->image_url) }}" alt="{{ $categoria->name }}" class="w-1920 h-1080 object-cover">
+                                                <img src="{{ asset('storage/' . $categoria->image_url) }}" alt="{{ $categoria->name }}" class="w-1920 h-1080 object-cover">
                                             @else
                                                 Sin imagen
                                             @endif
