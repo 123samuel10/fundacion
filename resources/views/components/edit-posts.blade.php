@@ -51,7 +51,7 @@
                         <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Editar Imagen Principal:</label>
                         <input type="file" name="image" id="image" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                         @if($post->image_url)
-                            <img src="{{ asset('storage/' . $post->image_url) }}" class="mt-2 w-32 h-32 object-cover rounded-lg" alt="Imagen principal del post">
+                            <img src="{{ asset('storage/uploads' . $post->image_url) }}" class="mt-2 w-32 h-32 object-cover rounded-lg" alt="Imagen principal del post">
                         @endif
                     </div>
                     <div>
@@ -59,7 +59,7 @@
                         <input type="file" name="images[]" id="images" multiple class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                         <div class="mt-4 flex flex-wrap gap-2">
                             @foreach($post->images as $image)
-                                <img src="{{ asset('storage/' . $image->image_url) }}" class="w-32 h-32 object-cover rounded-lg" alt="Imagen adicional del post">
+                                <img src="{{ asset('storage/posts' . $image->image_url) }}" class="w-32 h-32 object-cover rounded-lg" alt="Imagen adicional del post">
                             @endforeach
                         </div>
                     </div>
