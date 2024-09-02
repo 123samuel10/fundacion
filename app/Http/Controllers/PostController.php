@@ -53,6 +53,15 @@ class PostController extends Controller
 
      /**
       * Store a newly created resource in storage.
+
+
+En el método store, se crea un nuevo post en la base de datos.
+Se asignan los valores de usuario, título, cuerpo, categoría, y la fecha actual.
+Si el formulario contiene una imagen principal (image_url),
+ esta se guarda en la carpeta uploads en el almacenamiento público.
+  Si también se adjuntan imágenes adicionales (images),
+  cada una de ellas se guarda en la misma carpeta y se asocian con el post. Finalmente,
+   el post se guarda y se redirige al listado de posts con un mensaje de éxito.
       */
      public function store(Request $request)
      {
@@ -87,6 +96,12 @@ class PostController extends Controller
  }
      /**
       * Update the specified resource in storage.
+      En el método update, se actualiza un post existente con los datos proporcionados.
+       Se validan los campos, y si se ha subido una nueva imagen principal,
+       se elimina la imagen anterior y se guarda la nueva. Además,
+       si se han subido nuevas imágenes adicionales,
+       se eliminan las imágenes existentes y se reemplazan con las nuevas.
+        Después de guardar los cambios, se redirige al listado de posts con un mensaje de éxito.
       */
      public function update(Request $request, $post)
      {
