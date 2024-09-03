@@ -10,6 +10,10 @@ class CategoriaController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+Claro, aquí tienes una descripción corta:
+
+
      */
     public function index()
     {
@@ -29,6 +33,9 @@ class CategoriaController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * El código crea una nueva categoría, asigna su nombre y,
+si se sube una imagen, guarda la imagen en el directorio uploads dentro del almacenamiento público.
+ Luego, guarda la categoría en la base de datos y redirige al usuario a la lista de categorías.
      */
     public function store(Request $request)
     {
