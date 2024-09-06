@@ -63,30 +63,29 @@ Si el formulario contiene una imagen principal (image_url),
   cada una de ellas se guarda en la misma carpeta y se asocian con el post. Finalmente,
    el post se guarda y se redirige al listado de posts con un mensaje de éxito.
       */
-     public function store(Request $request)
-     {
-        $post = new Post();
-        $post->user_id = $request->user_id;
-        $post->title = $request->title;
-        $post->body = $request->body;
-        $post->category = $request->category;
-        $post->date_time = now();
+      public function store(Request $request)
+      {
+          $post = new Post();
+          $post->user_id = $request->user_id;
+          $post->title = $request->title;
+          $post->body = $request->body;
+          $post->category = $request->category; // Cambiado a `category_id`
+          $post->date_time = now();
 
-        if ($request->hasFile('image_url')) {
-            $post->image_url = $request->file('image_url')->store('uploads', 'public');
-        }
-        $post->save();
+          if ($request->hasFile('image_url')) {
+              $post->image_url = $request->file('image_url')->store('posts', 'public'); // Usa 'posts' en vez de 'uploads'
+          }
+          $post->save();
 
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('uploads', 'public');
-                $post->images()->create(['image_url' => $path]);
-            }
-        }
+          if ($request->hasFile('images')) {
+              foreach ($request->file('images') as $image) {
+                  $path = $image->store('posts', 'public'); // Usa 'posts' en vez de 'uploads'
+                  $post->images()->create(['image_url' => $path]);
+              }
+          }
 
-        return redirect('/posts')->with('message', 'Post creado exitosamente');
-
-     }
+          return redirect('/posts')->with('message', 'Post creado exitosamente');
+      }
 
      public function edit($id)
  {
@@ -103,53 +102,53 @@ Si el formulario contiene una imagen principal (image_url),
        se eliminan las imágenes existentes y se reemplazan con las nuevas.
         Después de guardar los cambios, se redirige al listado de posts con un mensaje de éxito.
       */
-     public function update(Request $request, $post)
-     {
-        $post = Post::findOrFail($post);
+      public function update(Request $request, $postId)
+      {
+          $post = Post::findOrFail($postId);
 
-        $request->validate([
-            'user_id' => 'required|integer',
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
-            'category' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+          $request->validate([
+              'user_id' => 'required|integer',
+              'title' => 'required|string|max:255',
+              'body' => 'required|string',
+              'category' => 'required|integer',
+              'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+              'images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+          ]);
 
-        $post->user_id = $request->input('user_id');
-        $post->title = $request->input('title');
-        $post->body = $request->input('body');
-        $post->category= $request->input('category');
+          $post->user_id = $request->input('user_id');
+          $post->title = $request->input('title');
+          $post->body = $request->input('body');
+          $post->category = $request->input('category');
 
-        // Manejo de la imagen principal
-        if ($request->hasFile('image')) {
-            // Elimina la imagen existente si hay una
-            if ($post->image_url) {
-                Storage::delete('public/' . $post->image_url);
-            }
+          // Manejo de la imagen principal
+          if ($request->hasFile('image')) {
+              // Elimina la imagen existente si hay una
+              if ($post->image_url) {
+                  Storage::delete('public/' . $post->image_url);
+              }
 
-            $image = $request->file('image');
-            $imagePath = $image->store('posts', 'public');
-            $post->image_url = $imagePath;
-        }
+              $image = $request->file('image');
+              $imagePath = $image->store('posts', 'public'); // Usa 'posts'
+              $post->image_url = $imagePath;
+          }
 
-        $post->save();
+          $post->save();
 
-        // Manejo de las imágenes adicionales
-        if ($request->hasFile('images')) {
-            foreach ($post->images as $image) {
-                Storage::delete('public/' . $image->image_url);
-                $image->delete();
-            }
+          // Manejo de las imágenes adicionales
+          if ($request->hasFile('images')) {
+              foreach ($post->images as $image) {
+                  Storage::delete('public/' . $image->image_url);
+                  $image->delete();
+              }
 
-            foreach ($request->file('images') as $image) {
-                $imagePath = $image->store('posts', 'public');
-                $post->images()->create(['image_url' => $imagePath]);
-            }
-        }
+              foreach ($request->file('images') as $image) {
+                  $imagePath = $image->store('posts', 'public'); // Usa 'posts'
+                  $post->images()->create(['image_url' => $imagePath]);
+              }
+          }
 
-        return redirect()->route('posts.index')->with('success', 'Post actualizado correctamente');
-     }
+          return redirect()->route('posts.index')->with('success', 'Post actualizado correctamente');
+      }
 
      /**
       * Remove the specified resource from storage.
@@ -161,9 +160,10 @@ Si el formulario contiene una imagen principal (image_url),
         }
 
 
-       public function show($id)
-{
-    $post = Post::with('images')->findOrFail($id); // Cargar imágenes junto con el post
-    return view('posts.show', compact('post'));
-}
+        public function show($id)
+        {
+            $post = Post::with('images')->findOrFail($id); // Cargar imágenes junto con el post
+            return view('posts.show', compact('post'));
+        }
+
 }

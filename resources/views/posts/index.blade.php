@@ -37,18 +37,17 @@
                                             <td class="py-4 px-6">{{ $post->title }}</td>
                                             <td class="py-4 px-6">{{ $post->body }}</td>
                                             <td class="py-4 px-6">
-                                                @if($post->images->isNotEmpty())
-                                                    @foreach($post->images as $image)
-
-
-                                                        <img src="{{ asset('storage/' . $image->image_url) }}" width="100" class="rounded mb-2" alt="Imagen del post {{ $post->id }}">
-                                                    @endforeach
-                                                @else
-                                                    No image
-                                                @endif
-                                            </td>
+                                                <td class="py-4 px-6">
+                                                    @if($post->images->isNotEmpty())
+                                                        @foreach($post->images as $image)
+                                                            <img src="{{ asset('storage/' . $image->image_url) }}" width="100" class="rounded mb-2" alt="Imagen del post {{ $post->id }}">
+                                                        @endforeach
+                                                    @else
+                                                        No image
+                                                    @endif
+                                                </td>
                                             <td class="py-4 px-6">{{ $post->date_time }}</td>
-                                            <td class="py-4 px-6">{{ $post->category }}</td>
+                                            <td class="py-4 px-6">{{ $post->category}}</td>
                                             <td class="py-4 px-6">
                                                 <div class="flex flex-col sm:flex-row gap-2">
                                                     <x-edit-posts :post="$post" :categorias="$categorias" />
