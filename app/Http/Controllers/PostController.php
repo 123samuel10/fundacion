@@ -63,14 +63,17 @@ class PostController extends Controller
         $post->category = $request->category;
         $post->date_time = now();
 
+        // Manejo de la imagen principal
         if ($request->hasFile('image_url')) {
-            $post->image_url = $request->file('image_url')->store('uploads', 'public');
+            $post->image_url = $request->file('image_url')->store('posts', 'public');
         }
+
         $post->save();
 
+        // Manejo de las imágenes adicionales
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $path = $image->store('uploads', 'public');
+                $path = $image->store('posts', 'public');
                 $post->images()->create(['image_url' => $path]);
             }
         }
@@ -108,14 +111,12 @@ class PostController extends Controller
 
         // Manejo de la imagen principal
         if ($request->hasFile('image')) {
-            // Elimina la imagen existente si hay una
             if ($post->image_url) {
                 Storage::delete('public/' . $post->image_url);
             }
 
             $image = $request->file('image');
-            $imagePath = $image->store('posts', 'public');
-            $post->image_url = $imagePath;
+            $post->image_url = $image->store('posts', 'public');
         }
 
         $post->save();
