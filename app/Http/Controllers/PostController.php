@@ -73,7 +73,7 @@ class PostController extends Controller
         // Manejo de las imágenes adicionales
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $path = $image->store('posts', 'public');
+                $path = $image->store('uploads', 'public');
                 $post->images()->create(['image_url' => $path]);
             }
         }
