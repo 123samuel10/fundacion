@@ -41,7 +41,8 @@
                                                     @foreach($post->images as $image)
 
 
-                                                        <img src="{{ asset('storage/' . $image->image_url) }}" width="100" class="rounded mb-2" alt="Imagen del post {{ $post->id }}">
+                                                    <img src="{{ asset('storage/uploads/' . $post->image) }}" alt="Post Image">
+
                                                     @endforeach
                                                 @else
                                                     No image
