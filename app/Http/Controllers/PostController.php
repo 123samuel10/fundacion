@@ -56,9 +56,6 @@ class PostController extends Controller
       */
      public function store(Request $request)
      {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
         $post = new Post();
         $post->user_id = $request->user_id;
         $post->title = $request->title;
@@ -66,14 +63,11 @@ class PostController extends Controller
         $post->category = $request->category;
         $post->date_time = now();
 
-        // Manejo de la imagen principal
         if ($request->hasFile('image_url')) {
-            $post->image_url = $request->file('image_url')->store('posts', 'public');
+            $post->image_url = $request->file('image_url')->store('uploads', 'public');
         }
-
         $post->save();
 
-        // Manejo de las imágenes adicionales
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $path = $image->store('uploads', 'public');
@@ -114,12 +108,14 @@ class PostController extends Controller
 
         // Manejo de la imagen principal
         if ($request->hasFile('image')) {
+            // Elimina la imagen existente si hay una
             if ($post->image_url) {
                 Storage::delete('public/' . $post->image_url);
             }
 
             $image = $request->file('image');
-            $post->image_url = $image->store('posts', 'public');
+            $imagePath = $image->store('posts', 'public');
+            $post->image_url = $imagePath;
         }
 
         $post->save();
