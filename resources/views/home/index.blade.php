@@ -42,7 +42,8 @@
                         @else
                             <img class="w-full h-48 object-cover" src="{{ asset('storage/default.jpg') }}" alt="Imagen predeterminada" />
                         @endif --}}
-                        <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $post->image_url) }}" alt="{{ $post->title }}" />
+                        <img class="w-full h-48 object-cover" src="{{ $post->images->isNotEmpty() ? asset('storage/' . $post->images->first()->image_url) : asset('storage/default.jpg') }}" alt="{{ $post->title }}" />
+
                     </a>
                     <div class="p-5">
                         <a href="{{ route('posts.show', $post->id) }}">
