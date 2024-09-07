@@ -38,12 +38,12 @@
                                             <td class="py-4 px-6">{{ $post->body }}</td>
 
                                             <td class="py-4 px-6">
-                                                @if(is_array($post->additional_images) || is_object($post->additional_images))
-                                                    @foreach($post->additional_images as $image)
+                                                @if(!empty($post->image_url))
+                                                    @foreach(explode(',', $post->image_url) as $image)
                                                         <img src="{{ asset('storage/' . $image) }}" width="100" class="rounded mb-2" alt="Imagen del post {{ $post->id }}">
                                                     @endforeach
                                                 @else
-                                                    No image
+                                                    No images
                                                 @endif
                                             </td>
 
