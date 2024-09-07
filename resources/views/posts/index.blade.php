@@ -36,7 +36,7 @@
                                             <td class="py-4 px-6">{{ $post->user_id }}</td>
                                             <td class="py-4 px-6">{{ $post->title }}</td>
                                             <td class="py-4 px-6">{{ $post->body }}</td>
-                                            <td class="py-4 px-6">
+
                                                 <td class="py-4 px-6">
                                                     @if($post->images->isNotEmpty())
                                                         @foreach($post->images as $image)
