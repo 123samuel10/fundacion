@@ -41,17 +41,18 @@
                     </select>
                 </div>
 
-                {{-- <div class="mb-6">
+                {{-- puse eso  --}}
+                <div class="mb-6">
                     <label for="image_url" class="block mb-2 text-sm font-medium text-red-700">Imagen</label>
                     @if (isset($post->image_url))
                         <img src="{{ asset('storage/'.$post->image_url) }}" width="100" alt="Imagen del Post" class="mb-4 rounded-lg shadow-sm">
                     @endif
                     <input type="file" id="image_url" name="image_url" class="bg-gray-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5">
-                </div> --}}
-                <div class="mb-6">
+                </div>
+                {{-- <div class="mb-6">
                     <label for="images" class="block mb-2 text-sm font-medium text-red-700">Imágenes</label>
                     <input type="file" name="images[]" id="images" multiple class="bg-gray-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5">
-                </div>
+                </div> --}}
 
                 </div>
                 <button type="submit" class="w-full sm:w-auto px-5 py-2.5 text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center">Guardar Datos</button>
