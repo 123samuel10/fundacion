@@ -44,6 +44,7 @@
                         @endif --}}
                         <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $post->image_url) }}" alt="{{ $post->title }}" />
                     </a>
+
                     <div class="p-5">
                         <a href="{{ route('posts.show', $post->id) }}">
                             <h5 class="mb-3 text-2xl font-bold text-gray-900 dark:text-white" style="font-family: 'Fredericka the Great', cursive;">{{ $post->title }}</h5>
