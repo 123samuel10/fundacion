@@ -56,25 +56,37 @@ class PostController extends Controller
       */
      public function store(Request $request)
      {
+        // Crea una nueva instancia del modelo Post
         $post = new Post();
+
+        // Asigna los valores del formulario a los campos del modelo
         $post->user_id = $request->user_id;
         $post->title = $request->title;
         $post->body = $request->body;
         $post->category = $request->category;
-        $post->date_time = now();
+        $post->date_time = now(); // Establece la fecha y hora actual
 
+        // Verifica si el formulario tiene un archivo de imagen principal
         if ($request->hasFile('image_url')) {
-            $post->image_url = $request->file('image_url')->store('uploads', 'public');
+            // Guarda la imagen en la carpeta 'uploads' del disco 'public' y asigna la ruta al campo 'image_url'
+            $post->image_url = $request->file('image_url')->store('posts', 'public');
         }
+
+        // Guarda el post en la base de datos
         $post->save();
 
+        // Verifica si el formulario tiene uno o más archivos de imagen adicionales
         if ($request->hasFile('images')) {
+            // Itera sobre cada archivo de imagen
             foreach ($request->file('images') as $image) {
+                // Guarda cada imagen en la carpeta 'uploads' del disco 'public'
                 $path = $image->store('uploads', 'public');
+                // Crea un registro en la base de datos asociado al post con la ruta de la imagen
                 $post->images()->create(['image_url' => $path]);
             }
         }
 
+        // Redirige al usuario a la página de posts con un mensaje de éxito
         return redirect('/posts')->with('message', 'Post creado exitosamente');
 
      }
