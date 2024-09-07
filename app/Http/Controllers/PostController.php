@@ -56,41 +56,38 @@ class PostController extends Controller
       */
       public function store(Request $request)
       {
-          // Valida la solicitud
-          $request->validate([
-              'title' => 'required|string|max:255',
-              'body' => 'required|string',
-              'category' => 'required|integer',
-              'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-              'images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-          ]);
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string',
+            'category' => 'required|integer',
+            'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
 
-          // Crea una nueva instancia del modelo Post
-          $post = new Post();
-          $post->user_id = $request->user_id;
-          $post->title = $request->title;
-          $post->body = $request->body;
-          $post->category = $request->category;
-          $post->date_time = now(); // Establece la fecha y hora actual
+        $post = new Post();
+        $post->user_id = $request->user_id;
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->category = $request->category;
+        $post->date_time = now();
 
-          // Manejo de la imagen principal
-          if ($request->hasFile('image_url')) {
-              $post->image_url = $request->file('image_url')->store('uploads', 'public');
-          }
+        if ($request->hasFile('image_url')) {
+            $post->image_url = $request->file('image_url')->store('uploads', 'public');
+        }
 
-          // Manejo de las imágenes adicionales
-          if ($request->hasFile('images')) {
-              $additionalImages = [];
-              foreach ($request->file('images') as $image) {
-                  $path = $image->store('uploads', 'public');
-                  $additionalImages[] = $path;
-              }
-              $post->additional_images = $additionalImages;
-          }
+        if ($request->hasFile('images')) {
+            $additionalImages = [];
+            foreach ($request->file('images') as $image) {
+                $additionalImages[] = $image->store('uploads', 'public');
+            }
+            $post->additional_images = $additionalImages;
+        } else {
+            $post->additional_images = [];
+        }
 
-          $post->save();
+        $post->save();
 
-          return redirect('/posts')->with('message', 'Post creado exitosamente');
+        return redirect('/posts')->with('message', 'Post creado exitosamente');
       }
 
 

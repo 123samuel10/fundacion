@@ -38,7 +38,7 @@
                                             <td class="py-4 px-6">{{ $post->body }}</td>
 
                                             <td class="py-4 px-6">
-                                                @if($post->additional_images)
+                                                @if(is_array($post->additional_images) || is_object($post->additional_images))
                                                     @foreach($post->additional_images as $image)
                                                         <img src="{{ asset('storage/' . $image) }}" width="100" class="rounded mb-2" alt="Imagen del post {{ $post->id }}">
                                                     @endforeach
@@ -46,6 +46,7 @@
                                                     No image
                                                 @endif
                                             </td>
+
                                             <td class="py-4 px-6">{{ $post->date_time }}</td>
                                             <td class="py-4 px-6">{{ $post->category }}</td>
                                             <td class="py-4 px-6">

@@ -41,4 +41,5 @@ class Post extends Model
      protected $casts = [
          'additional_images' => 'array', // Convierte el campo JSON a un array
      ];
+
 }
