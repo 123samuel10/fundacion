@@ -7,11 +7,9 @@
             @foreach($adminPosts as $post)
             <div class="bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 overflow-hidden transition-transform transform hover:scale-105">
                 <a href="{{ route('posts.show', $post->id) }}">
-                    @if($post->image_url && Storage::disk('public')->exists($post->image_url))
-                        <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $post->image_url) }}" alt="{{ $post->title }}" />
-                    @else
-                        <img class="w-full h-48 object-cover" src="https://via.placeholder.com/600x400" alt="Imagen no disponible" />
-                    @endif
+ {{-- Muestra la primera imagen del post --}}
+
+                    <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $post->image_url) }}" alt="{{ $post->title }}" />
                 </a>
                 <div class="p-5">
                     <a href="{{ route('posts.show', $post->id) }}">
