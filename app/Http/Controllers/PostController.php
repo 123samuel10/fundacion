@@ -94,9 +94,15 @@ class PostController extends Controller
 
      public function edit($id)
  {
-     $post = Post::findOrFail($id);
-     $categorias = Categoria::all();
-     return view('posts.edit', compact('post', 'categorias'));
+    $post = Post::findOrFail($id);
+
+    // Asegúrate de que additional_images es un array
+    $post->additional_images = $post->additional_images ?? [];
+
+    return view('posts.edit', [
+        'post' => $post,
+        'categorias' => Categoria::all(),
+    ]);
  }
      /**
       * Update the specified resource in storage.

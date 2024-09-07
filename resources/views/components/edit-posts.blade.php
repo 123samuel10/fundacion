@@ -57,11 +57,16 @@
                         <label for="images" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Editar Imágenes Adicionales:</label>
                         <input type="file" name="images[]" id="images" multiple class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                         <div class="mt-4 flex flex-wrap gap-2">
-                            @foreach($post->additional_images as $image)
-                                <img src="{{ asset('storage/' . $image) }}" class="w-32 h-32 object-cover rounded-lg" alt="Imagen adicional del post">
-                            @endforeach
+                            @if(is_array($post->additional_images) || is_object($post->additional_images))
+                                @foreach($post->additional_images as $image)
+                                    <img src="{{ asset('storage/' . $image) }}" class="w-32 h-32 object-cover rounded-lg" alt="Imagen adicional del post">
+                                @endforeach
+                            @else
+                                <p>No hay imágenes adicionales.</p>
+                            @endif
                         </div>
                     </div>
+
                 </div>
 
                 <!-- Pie del modal, siempre visible -->
