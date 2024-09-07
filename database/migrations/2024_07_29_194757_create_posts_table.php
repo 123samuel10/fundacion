@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('body');
             $table->text('image_url')->nullable();
+            $table->text('additional_images')->nullable(); // Campo JSON para imágenes adicionales
             $table->dateTime('date_time')->nullable();
             $table->string('category');
             $table->boolean('status')->default(true);

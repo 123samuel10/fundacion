@@ -27,5 +27,18 @@ class Post extends Model
          return $this->hasMany(PostImage::class); // Asegúrate de que PostImage sea el modelo adecuado
      }
 
+     use HasFactory;
 
+     protected $fillable = [
+         'user_id',
+         'title',
+         'body',
+         'category',
+         'image_url',
+         'additional_images',
+     ];
+
+     protected $casts = [
+         'additional_images' => 'array', // Convierte el campo JSON a un array
+     ];
 }
