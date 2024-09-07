@@ -41,7 +41,7 @@
                     </select>
                 </div>
 
-                {{-- puse eso  --}}
+                {{-- puse eso --}}
                 <div class="mb-6">
                     <label for="image_url" class="block mb-2 text-sm font-medium text-red-700">Imagen</label>
                     @if (isset($post->image_url))
