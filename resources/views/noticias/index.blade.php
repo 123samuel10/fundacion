@@ -9,7 +9,7 @@
                 <a href="{{ route('posts.show', $post->id) }}">
  {{-- Muestra la primera imagen del post --}}
 
-                    <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $post->image_url) }}" alt="{{ $post->title }}" />
+                    <img class="w-full h-48 object-cover" src="{{ asset('storage/app/public' . $post->image_url) }}" alt="{{ $post->title }}" />
                 </a>
                 <div class="p-5">
                     <a href="{{ route('posts.show', $post->id) }}">
