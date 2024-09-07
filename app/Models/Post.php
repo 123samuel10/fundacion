@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PostImage;
+
 class Post extends Model
 {
     use HasFactory;
@@ -25,7 +26,6 @@ class Post extends Model
      {
          return $this->hasMany(PostImage::class); // Asegúrate de que PostImage sea el modelo adecuado
      }
-
 
 
 }
