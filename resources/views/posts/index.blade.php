@@ -21,7 +21,7 @@
                                         <tr>
                                             <th class="py-4 px-6 text-lg">#</th>
                                             <th class="py-4 px-6 text-lg">UserId</th>
-                                            <th class="py-4 px-6 text-lg">Title</th>
+                                            <th class="py-4 px-6 text-lg">Titleee</th>
                                             <th class="py-4 px-6 text-lg">Body</th>
                                             <th class="py-4 px-6 text-lg">Images</th>
                                             <th class="py-4 px-6 text-lg">Date</th>
