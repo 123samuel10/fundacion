@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="container mx-auto p-6">
                         <div class="mb-4 flex justify-between items-center">
-                            <a href="posts/create" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 text-lg font-semibold">Crear Post</a>
+                            <a href="{{ route('posts.create') }}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 text-lg font-semibold">Crear Post</a>
                         </div>
 
                         <div class="overflow-x-auto">
@@ -37,17 +37,17 @@
                                             <td class="py-4 px-6">{{ $post->title }}</td>
                                             <td class="py-4 px-6">{{ $post->body }}</td>
 
-                                                <td class="py-4 px-6">
-                                                    @if($post->images->isNotEmpty())
-                                                        @foreach($post->images as $image)
-                                                            <img src="{{ asset('storage/' . $image->image_url) }}" width="100" class="rounded mb-2" alt="Imagen del post {{ $post->id }}">
-                                                        @endforeach
-                                                    @else
-                                                        No image
-                                                    @endif
-                                                </td>
+                                            <td class="py-4 px-6">
+                                                @if($post->images->isNotEmpty())
+                                                    @foreach($post->images as $image)
+                                                        <img src="{{ asset('storage/' . $image->image_url) }}" width="100" class="rounded mb-2" alt="Imagen del post {{ $post->id }}">
+                                                    @endforeach
+                                                @else
+                                                    No image
+                                                @endif
+                                            </td>
                                             <td class="py-4 px-6">{{ $post->date_time }}</td>
-                                            <td class="py-4 px-6">{{ $post->category}}</td>
+                                            <td class="py-4 px-6">{{ $post->category }}</td>
                                             <td class="py-4 px-6">
                                                 <div class="flex flex-col sm:flex-row gap-2">
                                                     <x-edit-posts :post="$post" :categorias="$categorias" />
