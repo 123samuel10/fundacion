@@ -70,34 +70,3 @@
         </div>
     </div>
 </x-app-layout>
-<div class="container mx-auto p-6">
-    <div class="mb-4">
-        <form id="imageUploadForm" enctype="multipart/form-data">
-            <label for="image" class="block text-lg font-semibold text-gray-700 dark:text-gray-300">Insertar Imagen:</label>
-            <input type="file" id="image" name="image" accept="image/*" class="mt-2 p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300" onchange="previewImage(event)">
-        </form>
-    </div>
-    <div id="imagePreview" class="mt-4">
-        <!-- Aquí se mostrará la imagen previa -->
-    </div>
-</div>
-
-<script>
-    function previewImage(event) {
-        const imagePreview = document.getElementById('imagePreview');
-        imagePreview.innerHTML = ''; // Limpiar cualquier imagen previa
-
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.alt = 'Imagen seleccionada';
-                img.className = 'w-64 h-64 object-cover rounded-lg';
-                imagePreview.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-</script>
