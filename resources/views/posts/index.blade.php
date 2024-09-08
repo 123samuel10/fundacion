@@ -21,9 +21,9 @@
                                         <tr>
                                             <th class="py-4 px-6 text-lg">#</th>
                                             <th class="py-4 px-6 text-lg">UserId</th>
-                                            <th class="py-4 px-6 text-lg">Title</th>
+                                            <th class="py-4 px-6 text-lg">Titleee</th>
                                             <th class="py-4 px-6 text-lg">Body</th>
-                                            <th class="py-4 px-6 text-lg">Image</th>
+                                            <th class="py-4 px-6 text-lg">Images</th>
                                             <th class="py-4 px-6 text-lg">Date</th>
                                             <th class="py-4 px-6 text-lg">Category</th>
                                             <th class="py-4 px-6 text-lg">Actions</th>
@@ -38,8 +38,10 @@
                                             <td class="py-4 px-6">{{ $post->body }}</td>
 
                                             <td class="py-4 px-6">
-                                                @if($post->image_url)
-                                                    <img src="{{ asset('storage/' . $post->image_url) }}" width="100" class="rounded mb-2" alt="Imagen del post {{ $post->id }}">
+                                                @if(is_array($post->additional_images) || is_object($post->additional_images))
+                                                    @foreach($post->additional_images as $image)
+                                                        <img src="{{ asset('storage/' . $image) }}" width="100" class="rounded mb-2" alt="Imagen del post {{ $post->id }}">
+                                                    @endforeach
                                                 @else
                                                     No image
                                                 @endif

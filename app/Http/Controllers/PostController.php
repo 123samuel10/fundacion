@@ -40,29 +40,32 @@ class PostController extends Controller
      /**
       * Show the form for creating a new resource.
       */
-      /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $categorias = Categoria::all();
-        return view('posts.create', compact('categorias'));
-    }
+     public function create()
+     {
+         $categorias = Categoria::all();
 
-      /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
+         // Pasar las categorías a la vista
+         return view('posts.create', compact('categorias'));
+
+
+
+     }
+
+     /**
+      * Store a newly created resource in storage.
+      */
+      public function store(Request $request)
+      {
         $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'required|string',
             'category' => 'required|integer',
             'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $post = new Post();
-        $post->user_id = Auth::id(); // Asignar el usuario actual
+        $post->user_id = $request->user_id;
         $post->title = $request->title;
         $post->body = $request->body;
         $post->category = $request->category;
@@ -72,60 +75,83 @@ class PostController extends Controller
             $post->image_url = $request->file('image_url')->store('uploads', 'public');
         }
 
-        $post->save();
-
-        return redirect('/posts')->with('message', 'Post creado exitosamente');
-    }
-
-
-
-   /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        $post = Post::findOrFail($id);
-        return view('posts.edit', [
-            'post' => $post,
-            'categorias' => Categoria::all(),
-        ]);
-    }
-       /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        $post = Post::findOrFail($id);
-
-        $request->validate([
-            'user_id' => 'required|string',
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
-            'category' => 'required|integer',
-            'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
-
-        $post->user_id = $request->input('user_id');
-        $post->title = $request->input('title');
-        $post->body = $request->input('body');
-        $post->category = $request->input('category');
-
-        // Manejo de la imagen principal
-        if ($request->hasFile('image_url')) {
-            // Elimina la imagen existente si hay una
-            if ($post->image_url) {
-                Storage::delete('public/' . $post->image_url);
+        if ($request->hasFile('images')) {
+            $additionalImages = [];
+            foreach ($request->file('images') as $image) {
+                $additionalImages[] = $image->store('uploads', 'public');
             }
-
-            $image = $request->file('image_url');
-            $imagePath = $image->store('uploads', 'public');
-            $post->image_url = $imagePath;
+            $post->additional_images = $additionalImages;
+        } else {
+            $post->additional_images = [];
         }
 
         $post->save();
 
-        return redirect()->route('posts.index')->with('success', 'Post actualizado correctamente');
-    }
+        return redirect('/posts')->with('message', 'Post creado exitosamente');
+      }
+
+
+
+     public function edit($id)
+ {
+    $post = Post::findOrFail($id);
+
+    // Asegúrate de que additional_images es un array
+    $post->additional_images = $post->additional_images ?? [];
+
+    return view('posts.edit', [
+        'post' => $post,
+        'categorias' => Categoria::all(),
+    ]);
+ }
+     /**
+      * Update the specified resource in storage.
+      */
+      public function update(Request $request, $post)
+      {
+          $post = Post::findOrFail($post);
+
+          $request->validate([
+              'user_id' => 'required|integer',
+              'title' => 'required|string|max:255',
+              'body' => 'required|string',
+              'category' => 'required|integer',
+              'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+              'images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+          ]);
+
+          $post->user_id = $request->input('user_id');
+          $post->title = $request->input('title');
+          $post->body = $request->input('body');
+          $post->category = $request->input('category');
+
+          // Manejo de la imagen principal
+          if ($request->hasFile('image')) {
+              // Elimina la imagen existente si hay una
+              if ($post->image_url) {
+                  Storage::delete('public/' . $post->image_url);
+              }
+
+              $image = $request->file('image');
+              $imagePath = $image->store('posts', 'public');
+              $post->image_url = $imagePath;
+          }
+
+          // Manejo de las imágenes adicionales
+          if ($request->hasFile('images')) {
+              $additionalImages = [];
+              foreach ($request->file('images') as $image) {
+                  $imagePath = $image->store('posts', 'public');
+                  $additionalImages[] = $imagePath;
+              }
+              $post->additional_images = $additionalImages;
+          }
+
+          $post->save();
+
+          return redirect()->route('posts.index')->with('success', 'Post actualizado correctamente');
+      }
+
      /**
       * Remove the specified resource from storage.
       */
