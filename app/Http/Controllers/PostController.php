@@ -54,103 +54,99 @@ class PostController extends Controller
      /**
       * Store a newly created resource in storage.
       */
-      public function store(Request $request)
-      {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
-            'category' => 'required|integer',
-            'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
-
+     public function store(Request $request)
+     {
+        // Crea una nueva instancia del modelo Post
         $post = new Post();
+
+        // Asigna los valores del formulario a los campos del modelo
         $post->user_id = $request->user_id;
         $post->title = $request->title;
         $post->body = $request->body;
         $post->category = $request->category;
-        $post->date_time = now();
+        $post->date_time = now(); // Establece la fecha y hora actual
 
+        // Verifica si el formulario tiene un archivo de imagen principal
         if ($request->hasFile('image_url')) {
+            // Guarda la imagen en la carpeta 'uploads' del disco 'public' y asigna la ruta al campo 'image_url'
             $post->image_url = $request->file('image_url')->store('uploads', 'public');
         }
 
-        if ($request->hasFile('images')) {
-            $additionalImages = [];
-            foreach ($request->file('images') as $image) {
-                $additionalImages[] = $image->store('uploads', 'public');
-            }
-            $post->additional_images = $additionalImages;
-        } else {
-            $post->additional_images = [];
-        }
-
+        // Guarda el post en la base de datos
         $post->save();
 
+        // Verifica si el formulario tiene uno o más archivos de imagen adicionales
+        if ($request->hasFile('images')) {
+            // Itera sobre cada archivo de imagen
+            foreach ($request->file('images') as $image) {
+                // Guarda cada imagen en la carpeta 'uploads' del disco 'public'
+                $path = $image->store('uploads', 'public');
+                // Crea un registro en la base de datos asociado al post con la ruta de la imagen
+                $post->images()->create(['image_url' => $path]);
+            }
+        }
+
+        // Redirige al usuario a la página de posts con un mensaje de éxito
         return redirect('/posts')->with('message', 'Post creado exitosamente');
-      }
 
-
+     }
 
      public function edit($id)
  {
-    $post = Post::findOrFail($id);
-
-    // Asegúrate de que additional_images es un array
-    $post->additional_images = $post->additional_images ?? [];
-
-    return view('posts.edit', [
-        'post' => $post,
-        'categorias' => Categoria::all(),
-    ]);
+     $post = Post::findOrFail($id);
+     $categorias = Categoria::all();
+     return view('posts.edit', compact('post', 'categorias'));
  }
      /**
       * Update the specified resource in storage.
       */
-      public function update(Request $request, $post)
-      {
-          $post = Post::findOrFail($post);
+     public function update(Request $request, $post)
+     {
+        $post = Post::findOrFail($post);
 
-          $request->validate([
-              'user_id' => 'required|integer',
-              'title' => 'required|string|max:255',
-              'body' => 'required|string',
-              'category' => 'required|integer',
-              'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-              'images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-          ]);
+        $request->validate([
+            'user_id' => 'required|integer',
+            'title' => 'required|string|max:255',
+            'body' => 'required|string',
+            'category' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
 
-          $post->user_id = $request->input('user_id');
-          $post->title = $request->input('title');
-          $post->body = $request->input('body');
-          $post->category = $request->input('category');
+        $post->user_id = $request->input('user_id');
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+        $post->category= $request->input('category');
 
-          // Manejo de la imagen principal
-          if ($request->hasFile('image')) {
-              // Elimina la imagen existente si hay una
-              if ($post->image_url) {
-                  Storage::delete('public/' . $post->image_url);
-              }
+        // Manejo de la imagen principal
+        if ($request->hasFile('image')) {
+            // Elimina la imagen existente si hay una
+            if ($post->image_url) {
+                Storage::delete('public/' . $post->image_url);
+            }
 
-              $image = $request->file('image');
-              $imagePath = $image->store('posts', 'public');
-              $post->image_url = $imagePath;
-          }
+            $image = $request->file('image');
+            $imagePath = $image->store('posts', 'public');
+            $post->image_url = $imagePath;
+        }
 
-          // Manejo de las imágenes adicionales
-          if ($request->hasFile('images')) {
-              $additionalImages = [];
-              foreach ($request->file('images') as $image) {
-                  $imagePath = $image->store('posts', 'public');
-                  $additionalImages[] = $imagePath;
-              }
-              $post->additional_images = $additionalImages;
-          }
+        $post->save();
 
-          $post->save();
+        // Manejo de las imágenes adicionales
+        if ($request->hasFile('images')) {
+            foreach ($post->images as $image) {
+                Storage::delete('public/' . $image->image_url);
+                $image->delete();
+            }
 
-          return redirect()->route('posts.index')->with('success', 'Post actualizado correctamente');
-      }
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('posts', 'public');
+                $post->images()->create(['image_url' => $imagePath]);
+            }
+        }
+
+        return redirect()->route('posts.index')->with('success', 'Post actualizado correctamente');
+     }
 
      /**
       * Remove the specified resource from storage.

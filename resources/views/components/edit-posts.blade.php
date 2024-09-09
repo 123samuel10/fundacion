@@ -2,6 +2,7 @@
 <button data-modal-target="crud-modal-{{ $post->id }}" data-modal-toggle="crud-modal-{{ $post->id }}" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
     Editar Post
 </button>
+
 <!-- Modal principal -->
 <div id="crud-modal-{{ $post->id }}" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
     <div class="relative w-full max-w-4xl mx-auto bg-white dark:bg-gray-700 rounded-lg shadow-lg">
@@ -41,7 +42,7 @@
                         <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Editar Categoría:</label>
                         <select name="category" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             @foreach($categorias as $categoria)
-                                <option value="{{ $categoria->id }}" {{ $post->category == $categoria->id ? 'selected' : '' }}>{{ $categoria->name }}</option>
+                                <option value="{{ $categoria->id }}" {{ $post->category_id == $categoria->id ? 'selected' : '' }}>{{ $categoria->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -57,16 +58,11 @@
                         <label for="images" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Editar Imágenes Adicionales:</label>
                         <input type="file" name="images[]" id="images" multiple class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                         <div class="mt-4 flex flex-wrap gap-2">
-                            @if(is_array($post->additional_images) || is_object($post->additional_images))
-                                @foreach($post->additional_images as $image)
-                                    <img src="{{ asset('storage/' . $image) }}" class="w-32 h-32 object-cover rounded-lg" alt="Imagen adicional del post">
-                                @endforeach
-                            @else
-                                <p>No hay imágenes adicionales.</p>
-                            @endif
+                            @foreach($post->images as $image)
+                                <img src="{{ asset('storage/' . $image->image_url) }}" class="w-32 h-32 object-cover rounded-lg" alt="Imagen adicional del post">
+                            @endforeach
                         </div>
                     </div>
-
                 </div>
 
                 <!-- Pie del modal, siempre visible -->
@@ -82,3 +78,4 @@
         </div>
     </div>
 </div>
+{{-- correcto --}}

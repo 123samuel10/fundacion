@@ -19,11 +19,11 @@
             @endif
 
             <!-- Mostrar las imágenes adicionales asociadas al post -->
-            @if(count($post->additional_images))
+            @if($post->images->count())
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    @foreach($post->additional_images as $imageUrl)
+                    @foreach($post->images as $image)
                         <div class="bg-gray-200 rounded-lg overflow-hidden shadow-md">
-                            <img src="{{ asset('storage/' . $imageUrl) }}" class="w-full h-48 object-cover" alt="Imagen adicional del post {{ $post->id }}">
+                            <img src="{{ asset('storage/' . $image->image_url) }}" class="w-full h-48 object-cover" alt="Imagen del post {{ $post->id }}">
                         </div>
                     @endforeach
                 </div>
@@ -34,3 +34,4 @@
     </div>
 </body>
 </html>
+{{-- correcto --}}
