@@ -18,7 +18,7 @@
                                 <thead class="bg-gray-800 text-white">
                                     <tr>
                                         <th class="w-1/12 py-3 px-4 uppercase font-semibold text-sm">#</th>
-                                        <th class="w-8/12 py-3 px-4 uppercase font-semibold text-sm">Nombreeee</th>
+                                        <th class="w-8/12 py-3 px-4 uppercase font-semibold text-sm">Nombre</th>
                                         <th class="w-2/12 py-3 px-4 uppercase font-semibold text-sm">Imagen</th>
                                         <th class="w-1/12 py-3 px-4 uppercase font-semibold text-sm">Acciones</th>
                                     </tr>
