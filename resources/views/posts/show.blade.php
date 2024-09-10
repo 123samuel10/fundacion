@@ -19,19 +19,26 @@
             @endif
 
             <!-- Mostrar las imágenes adicionales asociadas al post -->
-            @if($post->images->count())
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    @foreach($post->images as $image)
-                        <div class="bg-gray-200 rounded-lg overflow-hidden shadow-md">
-                            <img src="{{ asset('storage/' . $image->image_url) }}" class="w-full h-48 object-cover" alt="Imagen del post {{ $post->id }}">
-                        </div>
-                    @endforeach
-                </div>
+            @if($post->additional_images)
+                @php
+                    $additionalImages = json_decode($post->additional_images, true);
+                @endphp
+                @if(count($additionalImages))
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        @foreach($additionalImages as $image)
+                            <div class="bg-gray-200 rounded-lg overflow-hidden shadow-md">
+                                <img src="{{ asset('storage/' . $image) }}" class="w-full h-48 object-cover" alt="Imagen adicional del post {{ $post->id }}">
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p class="text-gray-700 text-center mt-4">No hay imágenes adicionales.</p>
+                @endif
             @endif
-
-            {{-- <a href="{{ route('posts.index') }}" class="block text-red-600 hover:text-red-800 hover:underline mt-6 text-center font-semibold">Regresar</a> --}}
+{{--
+            <a href="{{ route('posts.index') }}" class="block text-red-600 hover:text-red-800 hover:underline mt-6 text-center font-semibold">Regresar</a> --}}
         </div>
     </div>
 </body>
 </html>
-{{-- correcto --}}
+{{-- este esss --}}

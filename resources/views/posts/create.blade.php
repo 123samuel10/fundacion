@@ -47,8 +47,8 @@
                 </div>
 
                 <div class="mb-6">
-                    <label for="images" class="block mb-2 text-sm font-medium text-red-700">Imágenes Adicionales</label>
-                    <input type="file" id="images" name="images[]" class="bg-gray-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5" multiple />
+                    <label for="additional_images" class="block mb-2 text-sm font-medium text-red-700">Imágenes Adicionales</label>
+                    <input type="file" id="additional_images" name="additional_images[]" class="bg-gray-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5" multiple />
                 </div>
 
                 <button type="submit" class="bg-red-600 text-white font-bold py-2 px-4 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">Guardar</button>
@@ -57,4 +57,4 @@
     </div>
 </body>
 </html>
-{{-- correcto --}}
+{{-- este esssssssssssss --}}

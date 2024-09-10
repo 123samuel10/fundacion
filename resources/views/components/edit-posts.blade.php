@@ -46,21 +46,24 @@
                             @endforeach
                         </select>
                     </div>
+                  <!-- Imagen Principal -->
+<div>
+    <label for="image_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Editar Imagen Principal:</label>
+    <input type="file" name="image_url" id="image_url" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+    @if($post->image_url)
+        <img src="{{ asset('storage/' . $post->image_url) }}" class="mt-2 w-32 h-32 object-cover rounded-lg" alt="Imagen principal del post">
+    @endif
+</div>
                     <div>
-                        {{-- ESTA ES LA IMAGEN DE NOTICAS --}}
-                        <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Editar Imagen Principal:</label>
-                        <input type="file" name="image" id="image" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                        @if($post->image_url)
-                            <img src="{{ asset('storage/' . $post->image_url) }}" class="mt-2 w-32 h-32 object-cover rounded-lg" alt="Imagen principal del post">
+                        <label for="additional_images" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Imágenes Adicionales:</label>
+                        <input type="file" id="additional_images" name="additional_images[]" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" multiple>
+                        @if($post->additional_images)
+                            <div class="mt-2">
+                                @foreach(json_decode($post->additional_images) as $image)
+                                    <img src="{{ asset('storage/' . $image) }}" width="100" class="rounded mr-2" alt="Imagen adicional">
+                                @endforeach
+                            </div>
                         @endif
-                    </div>
-                    <div>
-                        <label for="images" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Editar Imágenes Adicionales:</label>
-                        <input type="file" name="images[]" id="images" multiple class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                        <div class="mt-4 flex flex-wrap gap-2">
-                            @foreach($post->images as $image)
-                                <img src="{{ asset('storage/' . $image->image_url) }}" class="w-32 h-32 object-cover rounded-lg" alt="Imagen adicional del post">
-                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -78,4 +81,4 @@
         </div>
     </div>
 </div>
-{{-- correcto --}}
+{{-- este esss--}}
