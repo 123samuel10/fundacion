@@ -69,6 +69,8 @@ class PostController extends Controller
         // Verifica si el formulario tiene un archivo de imagen principal
         if ($request->hasFile('image_url')) {
             // Guarda la imagen en la carpeta 'uploads' del disco 'public' y asigna la ruta al campo 'image_url'
+            // $path = $request->file('image_url')->store('uploads', 'public');
+            // dd($path); // Esto imprimirá la ruta donde se almacena la imagen
             $post->image_url = $request->file('image_url')->store('uploads', 'public');
         }
 
@@ -163,4 +165,7 @@ class PostController extends Controller
     $post = Post::with('images')->findOrFail($id); // Cargar imágenes junto con el post
     return view('posts.show', compact('post'));
 }
+
+
+
 }

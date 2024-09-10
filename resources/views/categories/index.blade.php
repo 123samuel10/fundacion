@@ -30,11 +30,12 @@
                                         <td class="py-3 px-4">{{ $categoria->name }}</td>
                                         <td class="py-3 px-4">
                                             @if($categoria->image_url)
-                                                <img src="{{ asset('storage/' . $categoria->image_url) }}" alt="{{ $categoria->name }}" class="w-1920 h-1080 object-cover">
+                                                <img src="{{ asset('storage/' . $categoria->image_url) }}" alt="{{ $categoria->name }}" class="w-32 h-32 object-cover">
                                             @else
                                                 Sin imagen
                                             @endif
                                         </td>
+
                                         <td class="py-3 px-4">
                                             <form action="/categories/{{ $categoria->id }}" method="post" class="inline">
                                                 @csrf
