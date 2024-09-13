@@ -56,37 +56,36 @@ class PostController extends Controller
       */
      public function store(Request $request)
      {
-        // Crear un nuevo post y asignar los valores del request
-    $post = new Post();
-    $post->user_id = $request->user_id;
-    $post->title = $request->title;
-    $post->body = $request->body;
-    $post->category = $request->category;
-    $post->date_time = now(); // Establecer la fecha y hora actual
+      // Crear un nuevo post y asignar los valores del request
+      $post = new Post();
+      $post->user_id = $request->user_id;
+      $post->title = $request->title;
+      $post->body = $request->body;
+      $post->category = $request->category;
+      $post->date_time = now(); // Establecer la fecha y hora actual
 
-    // Guardar el post inicialmente para obtener el ID
-    $post->save();
-    $postId = $post->id;
+      // Guardar el post inicialmente para obtener el ID
+      $post->save();
+      $postId = $post->id;
 
-    // Definir el path donde se guardarán las imágenes del post
-    $path = 'images/' . $postId;
-    Storage::makeDirectory($path); // Crear el directorio para las imágenes del post
-    chmod(storage_path('app/'.$path),0766);
+      // Definir el path donde se guardarán las imágenes del post
+      $path = 'images/' . $postId;
+      Storage::makeDirectory($path); // Crear el directorio para las imágenes del post
 
-    // Verificar si el formulario contiene una imagen principal
-    if ($request->hasFile('image_url')) {
-        // Almacenar la imagen en el directorio especificado con el disco 'public'
-        $imagePath = $request->file('image_url')->store($path, 'public');
+      // Verificar si el formulario contiene una imagen principal
+      if ($request->hasFile('image_url')) {
+          // Almacenar la imagen en el directorio especificado con el disco 'public'
+          $imagePath = $request->file('image_url')->store($path, 'public');
 
-        // Actualizar el campo image_url del post con la ruta completa
-        $post->image_url = 'public/'.$path;
-    }
+          // Actualizar el campo image_url del post con la ruta completa
+          $post->image_url = 'storage/' . $imagePath;
+      }
 
-    // Guardar el post nuevamente con la ruta de la imagen
-    $post->save();
+      // Guardar el post nuevamente con la ruta de la imagen
+      $post->save();
 
-    // Redirigir con un mensaje de éxito
-    return redirect('/posts')->with('message', 'Post creado exitosamente');
+      // Redirigir con un mensaje de éxito
+      return redirect('/posts')->with('message', 'Post creado exitosamente');
 
     }
     // public function store(Request $request)
