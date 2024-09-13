@@ -79,7 +79,7 @@ class PostController extends Controller
         $imagePath = $request->file('image_url')->store($path, 'public');
 
         // Actualizar el campo image_url del post con la ruta completa
-        $post->image_url = $imagePath;
+        $post->image_url = 'public/'.$imagePath;
     }
 
     // Guardar el post nuevamente con la ruta de la imagen
