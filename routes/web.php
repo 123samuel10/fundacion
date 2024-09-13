@@ -93,7 +93,7 @@ require __DIR__.'/auth.php';
 
 Route::get('/pull', function () {
     // Ejecutar un comando en Linux
-    if(shell_exec('git pull')){
+    if(shell_exec('git pull --rebase')){
         return "Actualizado";
     }
     else{
