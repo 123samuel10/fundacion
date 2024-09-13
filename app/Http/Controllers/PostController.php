@@ -71,7 +71,7 @@ class PostController extends Controller
     // Definir el path donde se guardarán las imágenes del post
     $path = 'images/' . $postId;
     Storage::makeDirectory($path); // Crear el directorio para las imágenes del post
-    chmod(storage_path($path),0755);
+    chmod($path,0755);
 
     // Verificar si el formulario contiene una imagen principal
     if ($request->hasFile('image_url')) {
