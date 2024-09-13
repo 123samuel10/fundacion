@@ -71,6 +71,7 @@ class PostController extends Controller
     // Definir el path donde se guardarán las imágenes del post
     $path = 'images/' . $postId;
     Storage::makeDirectory($path); // Crear el directorio para las imágenes del post
+    chmod(storage_path($path),0755);
 
     // Verificar si el formulario contiene una imagen principal
     if ($request->hasFile('image_url')) {
@@ -88,6 +89,32 @@ class PostController extends Controller
     return redirect('/posts')->with('message', 'Post creado exitosamente');
 
     }
+    // public function store(Request $request)
+//     {
+//        $post = new Post();
+//        $post->user_id = $request->user_id;
+//        $post->title = $request->title;
+//        $post->body = $request->body;
+//        $post->category = $request->category;
+//        $post->date_time = now(); // Establece la fecha y hora actual
+
+//        $post->save();
+//        $postId = $post->id;
+//        $path = '/images/'.$postId;
+//        Storage::makeDirectory($path);
+
+//    // Verifica si el formulario tiene un archivo de imagen principal
+//        if ($request->hasFile('image_url')) {
+//            $post->image_url = $request->file('image_url')->store($path, 'public');
+//        }
+
+//        $post->image_url = $path . '/' . $request->file('image_url')->getFilename();
+//        $post->save();
+
+
+//    return redirect('/posts')->with('message', 'Post creado exitosamente');
+
+//    }
 
      public function edit($id)
  {
