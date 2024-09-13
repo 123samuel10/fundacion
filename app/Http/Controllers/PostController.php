@@ -76,10 +76,10 @@ class PostController extends Controller
     // Verificar si el formulario contiene una imagen principal
     if ($request->hasFile('image_url')) {
         // Almacenar la imagen en el directorio especificado con el disco 'public'
-        $imagePath = $request->file('image_url')->store($path);
+        $imagePath = $request->file('image_url')->store($path, 'public');
 
         // Actualizar el campo image_url del post con la ruta completa
-        $post->image_url = 'public/'.$imagePath;
+        $post->image_url = 'public/'.$path;
     }
 
     // Guardar el post nuevamente con la ruta de la imagen
