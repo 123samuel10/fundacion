@@ -5,20 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? 'Laravel' }}</title>
 
-    <!-- Importar la fuente Fredericka the Great -->
-    <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+    <!-- Importar la fuente Fredericka the Great y Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
 
     <style>
-        /* Aplicar la fuente a todo el cuerpo */
         body {
             font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa; /* Color de fondo más claro */
+            color: #212529; /* Color de texto más oscuro para mejor contraste */
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+<body class="bg-gray-100 text-gray-900">
 
     <x-header />
 

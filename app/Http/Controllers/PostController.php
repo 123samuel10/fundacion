@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
-
+use Spatie\ImageOptimizer\OptimizerChainFactory;
 class PostController extends Controller
 {
       /**
@@ -46,48 +46,110 @@ class PostController extends Controller
 
          // Pasar las categorías a la vista
          return view('posts.create', compact('categorias'));
-
-
-
      }
 
      /**
       * Store a newly created resource in storage.
       */
-     public function store(Request $request)
-     {
-      // Crear un nuevo post y asignar los valores del request
-      $post = new Post();
-      $post->user_id = $request->user_id;
-      $post->title = $request->title;
-      $post->body = $request->body;
-      $post->category = $request->category;
-      $post->date_time = now(); // Establecer la fecha y hora actual
+      public function store(Request $request)
+      {
+          // Validar los datos del request
+          $request->validate([
+              'user_id' => 'required|string',
+              'title' => 'required|string|max:255',
+              'body' => 'required|string',
+              'category' => 'required|string',
+              'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+              'additional_images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+          ]);
 
-      // Guardar el post inicialmente para obtener el ID
-      $post->save();
-      $postId = $post->id;
+          // Crear un nuevo post y asignar los valores del request
+          $post = new Post();
+          $post->user_id = $request->user_id;
+          $post->title = $request->title;
+          $post->body = $request->body;
+          $post->category = $request->category;
+          $post->date_time = now(); // Establecer la fecha y hora actual
 
-      // Definir el path donde se guardarán las imágenes del post
-      $path = 'images/' . $postId;
-      Storage::makeDirectory($path); // Crear el directorio para las imágenes del post
+          // Guardar el post inicialmente para obtener el ID
+          $post->save();
+          $postId = $post->id;
 
-      // Verificar si el formulario contiene una imagen principal
-      if ($request->hasFile('image_url')) {
-          // Almacenar la imagen en el directorio especificado con el disco 'public'
-          $imagePath = $request->file('image_url')->store($path, 'public');
+          // Definir el path donde se guardarán las imágenes del post
+          $path = 'images/' . $postId;
+          Storage::makeDirectory($path); // Crear el directorio para las imágenes del post
 
-          // Actualizar el campo image_url del post con la ruta completa
-          $post->image_url = 'storage/' . $imagePath;
+          // Verificar si el formulario contiene una imagen principal
+          if ($request->hasFile('image_url')) {
+              // Almacenar la imagen principal en el directorio especificado con el disco 'public'
+              $imagePath = $request->file('image_url')->store($path, 'public');
+
+              // Optimizar la imagen
+              $optimizer = OptimizerChainFactory::create();
+              $optimizer->optimize(storage_path('app/public/' . $imagePath));
+
+              // Actualizar el campo image_url del post con la ruta completa
+              $post->image_url = $imagePath;
+          }
+
+          // Verificar si el formulario contiene imágenes adicionales
+          if ($request->hasFile('additional_images')) {
+              $additionalImages = [];
+
+              foreach ($request->file('additional_images') as $file) {
+                  // Almacenar cada imagen adicional en el mismo directorio
+                  $additionalImagePath = $file->store($path, 'public');
+
+                  // Optimizar la imagen adicional
+                  $optimizer = OptimizerChainFactory::create();
+                  $optimizer->optimize(storage_path('app/public/' . $additionalImagePath));
+
+                  // Agregar la ruta de la imagen adicional a la lista
+                  $additionalImages[] = $additionalImagePath;
+              }
+
+              // Guardar todas las rutas de imágenes adicionales en un campo del post
+              $post->additional_images = json_encode($additionalImages);
+          }
+
+          // Guardar el post nuevamente con la ruta de la imagen principal y las imágenes adicionales
+          $post->save();
+
+          // Redirigir con un mensaje de éxito
+          return redirect('/posts')->with('message', 'Post creado exitosamente');
       }
+    //   public function store(Request $request)
+    //   {
+    //       // Crear un nuevo post y asignar los valores del request
+    //       $post = new Post();
+    //       $post->user_id = $request->user_id;
+    //       $post->title = $request->title;
+    //       $post->body = $request->body;
+    //       $post->category = $request->category;
+    //       $post->date_time = now(); // Establecer la fecha y hora actual
 
-      // Guardar el post nuevamente con la ruta de la imagen
-      $post->save();
+    //       // Guardar el post inicialmente para obtener el ID
+    //       $post->save();
+    //       $postId = $post->id;
 
-      // Redirigir con un mensaje de éxito
-      return redirect('/posts')->with('message', 'Post creado exitosamente');
+    //       // Definir el path donde se guardarán las imágenes del post
+    //       $path = 'images/' . $postId;
+    //       Storage::makeDirectory($path); // Crear el directorio para las imágenes del post
 
-    }
+    //       // Verificar si el formulario contiene una imagen principal
+    //       if ($request->hasFile('image_url')) {
+    //           // Almacenar la imagen principal en el directorio especificado con el disco 'public'
+    //           $imagePath = $request->file('image_url')->store($path, 'public');
+
+    //           // Actualizar el campo image_url del post con la ruta completa
+    //           $post->image_url = $imagePath;
+    //       }
+
+    //       // Guardar el post nuevamente con la ruta de la imagen principal
+    //       $post->save();
+
+
+    //   }
     // public function store(Request $request)
 //     {
 //        $post = new Post();
@@ -124,46 +186,67 @@ class PostController extends Controller
      /**
       * Update the specified resource in storage.
       */
-     public function update(Request $request, $post)
-     {
-        $post = Post::findOrFail($post);
+      public function update(Request $request, $postId)
+      {
+          $post = Post::findOrFail($postId);
 
-        $request->validate([
-            'user_id' => 'required|string',
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
-            'category' => 'required|string',
-            'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'additional_images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+          // Validar los datos del request
+          $request->validate([
+              'user_id' => 'required|string',
+              'title' => 'required|string|max:255',
+              'body' => 'required|string',
+              'category' => 'required|string',
+              'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+              'additional_images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+          ]);
 
-        $post->user_id = $request->input('user_id');
-        $post->title = $request->input('title');
-        $post->body = $request->input('body');
-        $post->category = $request->input('category');
+          $post->user_id = $request->input('user_id');
+          $post->title = $request->input('title');
+          $post->body = $request->input('body');
+          $post->category = $request->input('category');
 
-        // Manejo de la imagen principal
-        if ($request->hasFile('image_url')) {
-            if ($post->image_url) {
-                Storage::delete('public/' . $post->image_url);
-            }
-            $post->image_url = $request->file('image_url')->store('uploads', 'public');
-        }
+          // Manejo de la imagen principal
+          if ($request->hasFile('image_url')) {
+              // Eliminar la imagen anterior si existe
+              if ($post->image_url) {
+                  Storage::delete('public/' . $post->image_url);
+              }
+              // Almacenar la nueva imagen principal
+              $post->image_url = $request->file('image_url')->store('images/' . $post->id, 'public');
 
-    // Manejo de imágenes adicionales
-        if ($request->hasFile('additional_images')) {
-            $additionalImages = [];
-            foreach ($request->file('additional_images') as $image) {
-                $path = $image->store('uploads', 'public');
-                $additionalImages[] = $path;
-            }
-            $post->additional_images = json_encode($additionalImages); // Actualiza las rutas en formato JSON
-        }
+              // Optimizar la nueva imagen
+              $optimizer = OptimizerChainFactory::create();
+              $optimizer->optimize(storage_path('app/public/' . $post->image_url));
+          }
 
-        $post->save();
+          // Manejo de imágenes adicionales
+          if ($request->hasFile('additional_images')) {
+              // Eliminar las imágenes adicionales anteriores
+              if ($post->additional_images) {
+                  $existingImages = json_decode($post->additional_images);
+                  foreach ($existingImages as $image) {
+                      Storage::delete('public/' . $image);
+                  }
+              }
 
-        return redirect()->route('posts.index')->with('success', 'Post actualizado correctamente');
-     }
+              $additionalImages = [];
+              foreach ($request->file('additional_images') as $image) {
+                  $path = $image->store('images/' . $post->id, 'public');
+
+                  // Optimizar la imagen adicional
+                  $optimizer = OptimizerChainFactory::create();
+                  $optimizer->optimize(storage_path('app/public/' . $path));
+
+                  $additionalImages[] = $path;
+              }
+              $post->additional_images = json_encode($additionalImages); // Actualiza las rutas en formato JSON
+          }
+
+          $post->save();
+
+          return redirect()->route('posts.index')->with('success', 'Post actualizado correctamente');
+      }
+
 
      /**
       * Remove the specified resource from storage.
@@ -181,14 +264,12 @@ class PostController extends Controller
     return view('posts.show', compact('post'));
 }
 
-    public function updateImage($post)
-    {
+    // public function updateImage($post)
+    // {
+    //     $post->save();
 
-
-        $post->save();
-
-        return redirect()->route('posts.index')->with('success', 'Post actualizado correctamente');
-     }
+    //     return redirect()->route('posts.index')->with('success', 'Post actualizado correctamente');
+    //  }
 
 }
 // este es

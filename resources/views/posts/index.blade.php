@@ -51,6 +51,7 @@
                                             <td class="py-4 px-6">
                                                 <div class="flex flex-col sm:flex-row gap-2">
                                                     <x-edit-posts :post="$post" :categorias="$categorias" />
+                                                    <br>
                                                     <button data-modal-target="popup-modal-{{ $post->id }}" data-modal-toggle="popup-modal-{{ $post->id }}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-lg px-4 py-2 transition duration-300">
                                                         Borrar
                                                     </button>

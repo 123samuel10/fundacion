@@ -21,10 +21,10 @@
             </div>
             @endforeach
 
-            <!-- Course Cards -->
+            {{-- <!-- Course Cards -->
             <x-course-card title="Curso de Programación" description="Enseña los fundamentos de la codificación, el desarrollo de software y la resolución de problemas a través de lenguajes de programación. Ideal para quienes desean crear aplicaciones, automatizar tareas o iniciar una carrera en tecnología." image="programacion1.jpeg" category="Programación" />
 
-            <x-course-card title="Curso de Pensamiento Lógico" description="Enseña a desarrollar habilidades para razonar de manera estructurada y clara, resolver problemas complejos y tomar decisiones basadas en análisis lógico. Ideal para mejorar la capacidad de análisis crítico en diversas situaciones." image="pensamientoLogico.jpeg" category="Pensamiento Lógico" />
+            <x-course-card title="Curso de Pensamiento Lógico" description="Enseña a desarrollar habilidades para razonar de manera estructurada y clara, resolver problemas complejos y tomar decisiones basadas en análisis lógico. Ideal para mejorar la capacidad de análisis crítico en diversas situaciones." image="pensamientoLogico.jpeg" category="Pensamiento Lógico" /> --}}
 
             {{-- <x-course-card title="Curso de Música" description="Ofrece conocimientos sobre teoría musical, práctica instrumental y composición. Ideal para desarrollar habilidades creativas y comprender el lenguaje de la música, tanto para principiantes como para músicos avanzados." image="musica1.jpeg" category="Música" /> --}}
 
