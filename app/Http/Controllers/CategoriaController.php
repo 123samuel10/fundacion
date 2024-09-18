@@ -23,7 +23,10 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        // Obtener el último ID y sumar uno para determinar el próximo
+    $nextId = Categoria::max('id') + 1; // Sumar 1 al ID máximo existente
+
+    return view('categories.create', compact('nextId'));
     }
 
     /**

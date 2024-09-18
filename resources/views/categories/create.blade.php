@@ -19,7 +19,7 @@
                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                             <div>
                                 <label for="id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id</label>
-                                <input type="text" id="id" name="id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" placeholder="ID" required />
+                                <input type="text" id="id" name="id" value="{{ $nextId }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" placeholder="ID" readonly />
                             </div>
                             <div>
                                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
