@@ -12,6 +12,11 @@
                     <div class="container mx-auto p-6">
                         <div class="mb-4 flex justify-between items-center">
                             <a href="{{ route('posts.create') }}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 text-lg font-semibold">Crear Post</a>
+
+                            <!-- Botón para alternar entre modos -->
+                            <button id="mode-toggle" class="bg-gray-800 text-white px-4 py-2 rounded-lg">
+                                Alternar Modo Oscuro
+                            </button>
                         </div>
 
                         <div class="overflow-x-auto">
@@ -69,5 +74,24 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggleButton = document.getElementById('mode-toggle');
+
+            // Verificar la preferencia guardada en localStorage
+            const currentMode = localStorage.getItem('mode') || 'light';
+            document.body.classList.toggle('dark', currentMode === 'dark');
+
+            toggleButton.addEventListener('click', function() {
+                // Alternar el modo
+                const newMode = document.body.classList.toggle('dark') ? 'dark' : 'light';
+                localStorage.setItem('mode', newMode);
+                toggleButton.textContent = newMode === 'dark' ? 'Alternar Modo Claro' : 'Alternar Modo Oscuro';
+            });
+
+            // Establecer el texto del botón según el modo actual
+            toggleButton.textContent = currentMode === 'dark' ? 'Alternar Modo Claro' : 'Alternar Modo Oscuro';
+        });
+    </script>
 </x-app-layout>
-{{-- este esss--}}
