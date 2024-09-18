@@ -40,7 +40,7 @@
                                             <!-- Mostrar la imagen principal -->
                                             <td class="py-4 px-6">
                                                 @if($post->image_url)
-                                                    <img src="{{ asset('storage/' . $post->image_url) }}" width="100" class="rounded mb-2" alt="Imagen principal del post {{ $post->id }}">
+                                                    <img src="/storage/{{ $post->image_url }}" width="100" class="rounded mb-2" alt="Imagen principal del post {{ $post->id }}">
                                                 @else
                                                     No image
                                                 @endif
