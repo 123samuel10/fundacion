@@ -50,91 +50,178 @@ class PostController extends Controller
          return view('posts.create', compact('categorias'));
      }
 
-     /**
-      * Store a newly created resource in storage.
-      */
-    public function store(Request $request)
-    {
-        // Validar los datos del request
-        $request->validate([
-            'user_id' => 'required|string',
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
-            'category' => 'required|string',
-            'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:8192', // 8 MB
-            'additional_images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:8192', // 8 MB
-        ]);
+     public function store(Request $request)
+{
+    // Validar los datos del request
+    $request->validate([
+        'user_id' => 'required|string',
+        'title' => 'required|string|max:255',
+        'body' => 'required|string',
+        'category' => 'required|string',
+        'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:8192', // 8 MB
+        'additional_images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:8192', // 8 MB
+    ]);
 
-        // Configurar la clave de API de TinyPNG
-        Tinify::setKey(config('services.tinypng.api_key'));
+    // Configurar la clave de API de TinyPNG
+    Tinify::setKey(config('services.tinypng.api_key'));
 
-        // Crear un nuevo post y asignar los valores del request
-        $post = new Post();
-        $post->user_id = $request->user_id;
-        $post->title = $request->title;
-        $post->body = $request->body;
-        $post->category = $request->category;
-        $post->date_time = now(); // Establecer la fecha y hora actual
+    // Crear un nuevo post y asignar los valores del request
+    $post = new Post();
+    $post->user_id = $request->user_id;
+    $post->title = $request->title;
+    $post->body = $request->body;
+    $post->category = $request->category;
+    $post->date_time = now(); // Establecer la fecha y hora actual
 
-        // Guardar el post inicialmente para obtener el ID
-        $post->save();
-        $postId = $post->id;
+    // Guardar el post inicialmente para obtener el ID
+    $post->save();
+    $postId = $post->id;
 
-        // Definir el path donde se guardarán las imágenes del post
-        $path = 'images/' . $postId;
-        Storage::makeDirectory($path); // Crear el directorio para las imágenes del post
+    // Definir el path donde se guardarán las imágenes del post
+    $path = 'images/' . $postId;
+    Storage::makeDirectory($path); // Crear el directorio para las imágenes del post
 
-        // Función para comprimir una imagen usando TinyPNG
-        function compressImage($filePath, $pathToSave) {
-            try {
-                $source = Source::fromFile($filePath);
-                $source->toFile($pathToSave);
-                return $pathToSave;
-            } catch (\Exception $e) {
-                // Manejo de errores
-                throw new \Exception('Error comprimiendo la imagen: ' . $e->getMessage());
-            }
+    // Función para comprimir una imagen usando TinyPNG
+    function compressImage($filePath, $pathToSave) {
+        try {
+            $source = Source::fromFile($filePath);
+            $source->toFile($pathToSave);
+            return $pathToSave;
+        } catch (\Exception $e) {
+            // Manejo de errores
+            throw new \Exception('Error comprimiendo la imagen: ' . $e->getMessage());
         }
+    }
 
-        // Verificar si el formulario contiene una imagen principal
-        if ($request->hasFile('image_url')) {
-            // Almacenar la imagen principal en el directorio especificado con el disco 'public'
-            $imagePath = $request->file('image_url')->store($path, 'public');
+    // Verificar si el formulario contiene imágenes adicionales
+    if ($request->hasFile('additional_images')) {
+        $additionalImages = [];
+        $files = $request->file('additional_images');
+
+        // La primera imagen se usará como imagen principal
+        if (count($files) > 0) {
+            $firstFile = array_shift($files);
+
+            // Almacenar la imagen principal
+            $imagePath = $firstFile->store($path, 'public');
             $localImagePath = storage_path('app/public/' . $imagePath);
 
-            // Comprimir la imagen usando TinyPNG
+            // Comprimir la imagen principal usando TinyPNG
             compressImage($localImagePath, $localImagePath);
 
             // Actualizar el campo image_url del post con la ruta completa
             $post->image_url = $imagePath;
         }
 
-        // Verificar si el formulario contiene imágenes adicionales
-        if ($request->hasFile('additional_images')) {
-            $additionalImages = [];
+        // Procesar las imágenes adicionales
+        foreach ($files as $file) {
+            // Almacenar cada imagen adicional en el mismo directorio
+            $additionalImagePath = $file->store($path, 'public');
+            $localImagePath = storage_path('app/public/' . $additionalImagePath);
 
-            foreach ($request->file('additional_images') as $file) {
-                // Almacenar cada imagen adicional en el mismo directorio
-                $additionalImagePath = $file->store($path, 'public');
-                $localImagePath = storage_path('app/public/' . $additionalImagePath);
+            // Comprimir la imagen adicional usando TinyPNG
+            compressImage($localImagePath, $localImagePath);
 
-                // Comprimir la imagen adicional usando TinyPNG
-                compressImage($localImagePath, $localImagePath);
-
-                // Agregar la ruta de la imagen adicional a la lista
-                $additionalImages[] = $additionalImagePath;
-            }
-
-            // Guardar todas las rutas de imágenes adicionales en un campo del post
-            $post->additional_images = json_encode($additionalImages);
+            // Agregar la ruta de la imagen adicional a la lista
+            $additionalImages[] = $additionalImagePath;
         }
 
-        // Guardar el post nuevamente con la ruta de la imagen principal y las imágenes adicionales
-        $post->save();
-
-        // Redirigir con un mensaje de éxito
-        return redirect('/posts')->with('message', 'Post creado exitosamente');
+        // Guardar todas las rutas de imágenes adicionales en un campo del post
+        $post->additional_images = json_encode($additionalImages);
     }
+
+    // Guardar el post nuevamente con la ruta de la imagen principal y las imágenes adicionales
+    $post->save();
+
+    // Redirigir con un mensaje de éxito
+    return redirect('/posts')->with('message', 'Post creado exitosamente');
+}
+
+     /**
+      * Store a newly created resource in storage.
+      */
+    // public function store(Request $request)
+    // {
+    //     // Validar los datos del request
+    //     $request->validate([
+    //         'user_id' => 'required|string',
+    //         'title' => 'required|string|max:255',
+    //         'body' => 'required|string',
+    //         'category' => 'required|string',
+    //         'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:8192', // 8 MB
+    //         'additional_images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:8192', // 8 MB
+    //     ]);
+
+    //     // Configurar la clave de API de TinyPNG
+    //     Tinify::setKey(config('services.tinypng.api_key'));
+
+    //     // Crear un nuevo post y asignar los valores del request
+    //     $post = new Post();
+    //     $post->user_id = $request->user_id;
+    //     $post->title = $request->title;
+    //     $post->body = $request->body;
+    //     $post->category = $request->category;
+    //     $post->date_time = now(); // Establecer la fecha y hora actual
+
+    //     // Guardar el post inicialmente para obtener el ID
+    //     $post->save();
+    //     $postId = $post->id;
+
+    //     // Definir el path donde se guardarán las imágenes del post
+    //     $path = 'images/' . $postId;
+    //     Storage::makeDirectory($path); // Crear el directorio para las imágenes del post
+
+    //     // Función para comprimir una imagen usando TinyPNG
+    //     function compressImage($filePath, $pathToSave) {
+    //         try {
+    //             $source = Source::fromFile($filePath);
+    //             $source->toFile($pathToSave);
+    //             return $pathToSave;
+    //         } catch (\Exception $e) {
+    //             // Manejo de errores
+    //             throw new \Exception('Error comprimiendo la imagen: ' . $e->getMessage());
+    //         }
+    //     }
+
+    //     // Verificar si el formulario contiene una imagen principal
+    //     if ($request->hasFile('image_url')) {
+    //         // Almacenar la imagen principal en el directorio especificado con el disco 'public'
+    //         $imagePath = $request->file('image_url')->store($path, 'public');
+    //         $localImagePath = storage_path('app/public/' . $imagePath);
+
+    //         // Comprimir la imagen usando TinyPNG
+    //         compressImage($localImagePath, $localImagePath);
+
+    //         // Actualizar el campo image_url del post con la ruta completa
+    //         $post->image_url = $imagePath;
+    //     }
+
+    //     // Verificar si el formulario contiene imágenes adicionales
+    //     if ($request->hasFile('additional_images')) {
+    //         $additionalImages = [];
+
+    //         foreach ($request->file('additional_images') as $file) {
+    //             // Almacenar cada imagen adicional en el mismo directorio
+    //             $additionalImagePath = $file->store($path, 'public');
+    //             $localImagePath = storage_path('app/public/' . $additionalImagePath);
+
+    //             // Comprimir la imagen adicional usando TinyPNG
+    //             compressImage($localImagePath, $localImagePath);
+
+    //             // Agregar la ruta de la imagen adicional a la lista
+    //             $additionalImages[] = $additionalImagePath;
+    //         }
+
+    //         // Guardar todas las rutas de imágenes adicionales en un campo del post
+    //         $post->additional_images = json_encode($additionalImages);
+    //     }
+
+    //     // Guardar el post nuevamente con la ruta de la imagen principal y las imágenes adicionales
+    //     $post->save();
+
+    //     // Redirigir con un mensaje de éxito
+    //     return redirect('/posts')->with('message', 'Post creado exitosamente');
+    // }
 
 
 

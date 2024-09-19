@@ -43,16 +43,21 @@
                         @endforeach
                     </select>
                 </div>
-
+{{--
                 <div class="mb-6">
                     <label for="image_url" class="block mb-2 text-sm font-medium text-gray-600">Imagen Principal</label>
                     <input type="file" id="image_url" name="image_url" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-3" />
-                </div>
-
+                </div> --}}
+{{--
                 <div class="mb-6">
                     <label for="additional_images" class="block mb-2 text-sm font-medium text-gray-600">Imágenes Adicionales</label>
                     <input type="file" id="additional_images" name="additional_images[]" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-3" multiple />
+                </div> --}}
+                <div class="mb-6">
+                    <label for="additional_images" class="block mb-2 text-sm font-medium text-gray-600">Seleccionar Imágenes (la primera será la imagen principal)</label>
+                    <input type="file" id="additional_images" name="additional_images[]" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-3" multiple accept="image/*" />
                 </div>
+
 
                 <div class="flex justify-center">
                     <button type="submit" class="bg-red-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-150 ease-in-out">Guardar</button>
